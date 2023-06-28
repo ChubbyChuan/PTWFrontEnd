@@ -9,7 +9,6 @@ import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from "@angular/common/http";
 import { PTWService } from '../PTW.service';
-import { MatDialog } from '@angular/material/dialog';
 
 //SVG link
 const hot = HOT_ICON
@@ -53,7 +52,7 @@ export class CreateComponent implements OnInit {
   //   iconRegistry.addSvgIconLiteral('confined', sanitizer.bypassSecurityTrustHtml(confined))
   // }
   ptwSvc = inject(PTWService)
-  dialog: MatDialog = inject(MatDialog)
+
 
   //form
   Form!: FormGroup
@@ -105,8 +104,7 @@ export class CreateComponent implements OnInit {
           error => {
             console.error('Error occurred:', error);
             // Handle the error here
-            const newPermitId = error as string;
-            console.log('New Permit ID:', newPermitId);
+           
           }
         )
   } 
@@ -141,6 +139,4 @@ export class CreateComponent implements OnInit {
       comment: this.fb.control<string>('No Comment')
     })
   }
-
-
 }
