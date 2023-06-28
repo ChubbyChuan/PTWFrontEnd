@@ -1,0 +1,11 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: 0;
+  }
+
+  .formlabel {
+    font-size: 19px;
+    /* Add more CSS properties as needed */
+  }
+  

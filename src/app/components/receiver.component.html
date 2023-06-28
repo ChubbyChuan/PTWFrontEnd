@@ -1,0 +1,52 @@
+<div class="grid-container">
+    <table mat-table [formGroup]="Form" class="formlabel">
+      <tr>
+        <td> <mat-label for="name">Name:</mat-label> </td>
+        <td>
+          <input matInput type="text" size="30" id="name" placeholder="Your name as your NRIC">
+        </td>
+      <tr>
+        <td> <mat-label for="company" >Company:</mat-label> </td>
+        <td>
+          <mat-select>
+            <mat-option *ngFor="let c of companies" [value]="c.value">
+              {{c.viewValue}}
+            </mat-option>
+          </mat-select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="starttime">Start Time</label></td>
+        <td><input type="datetime-local"></td>
+      </tr>
+      <tr>
+        <td><label for="duration">Start Time</label></td>
+        <td><input type=""></td>
+      </tr>
+      <tr>
+        <td> <label for="location">Location:</label> </td>
+        <td>
+          <select id="location">
+            <option value="control">Control Room</option>
+            <option value="production">Production</option>
+            <option value="solvent">Solvent Recovery</option>
+            <option value="warehouse">Warehouse</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="comments">Comments:</label></td>
+        <td>
+          <textarea id="comments" cols="40" rows="5"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <div class="justify-right">
+            <button type="submit">Place Order</button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
