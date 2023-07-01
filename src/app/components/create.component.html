@@ -1,41 +1,25 @@
 <mat-tab-group>
-    <mat-tab label="Permit">
+    <mat-tab label="Create">
         <form [formGroup]="Form" (submit)="submitRequest()">
-            <tr>Create new PTW Request</tr>
-            <tr>
-                <button mat-flat-button color="primary" class="button">+Create</button>
-            </tr>
-
             <div>
                 <tr>
                     Select Category
                 </tr>
                 <tr>
-                    <!-- <button [color]="typeControl.value === 'hot' ? 'primary' : ''" mat-flat-button class="permit-icon-button" 
+                    <button *ngIf="typeControl.value != 'hot'" mat-stroked-button class="permit-icon-button" value="hot"
+                        (click)="selectType('hot')">
+                <tr>
+                    <mat-icon svgIcon="hot" aria-hidden="false" aria-label="hot_icon" class="permit-icon"></mat-icon>
+                </tr>
+                <tr class="permit-icon-caption">
+                    Hot Work
+                </tr>
+                </button>
+                <button *ngIf="typeControl.value == 'hot'" mat-flat-button color="primary" class="permit-icon-button"
                     value="hot" (click)="selectType('hot')">
-                        <tr>
-                            <mat-icon svgIcon="hot" aria-hidden="false" aria-label="hot_icon" class="permit-icon"></mat-icon>
-                        </tr>
-                        <tr class="permit-icon-caption">
-                            Hot Work
-                        </tr>
-                    </button> -->
-                
-                    
-                <button *ngIf="typeControl.value != 'hot'" mat-stroked-button class="permit-icon-button" 
-                value="hot" (click)="selectType('hot')">
                     <tr>
-                        <mat-icon svgIcon="hot" aria-hidden="false" aria-label="hot_icon" class="permit-icon"></mat-icon>
-                    </tr>
-                    <tr class="permit-icon-caption">
-                        Hot Work
-                    </tr>
-                </button>
-                <button *ngIf="typeControl.value == 'hot'" 
-                mat-flat-button color="primary" class="permit-icon-button" 
-                value="hot" (click)="selectType('hot')">
-                    <tr>
-                        <mat-icon svgIcon="hot" aria-hidden="false" aria-label="hot_icon" class="permit-icon"></mat-icon>
+                        <mat-icon svgIcon="hot" aria-hidden="false" aria-label="hot_icon"
+                            class="permit-icon"></mat-icon>
                     </tr>
                     <tr class="permit-icon-caption">
                         Hot Work
@@ -43,8 +27,8 @@
                 </button>
 
 
-                <button  *ngIf="typeControl.value != 'cold'" mat-stroked-button class="permit-icon-button" 
-                value="cold" (click)="selectType('cold')">
+                <button *ngIf="typeControl.value != 'cold'" mat-stroked-button class="permit-icon-button" value="cold"
+                    (click)="selectType('cold')">
                     <tr>
                         <mat-icon svgIcon="cold" aria-hidden="false" aria-label="cold_icon"
                             class="permit-icon"></mat-icon>
@@ -53,8 +37,8 @@
                         Cold Work
                     </tr>
                 </button>
-                <button  *ngIf="typeControl.value == 'cold'"
-                mat-flat-button color="primary" class="permit-icon-button" value="cold" (click)="selectType('cold')">
+                <button *ngIf="typeControl.value == 'cold'" mat-flat-button color="primary" class="permit-icon-button"
+                    value="cold" (click)="selectType('cold')">
                     <tr>
                         <mat-icon svgIcon="cold" aria-hidden="false" aria-label="cold_icon"
                             class="permit-icon"></mat-icon>
@@ -64,8 +48,8 @@
                     </tr>
                 </button>
 
-                <button *ngIf="typeControl.value != 'confined'"
-                mat-stroked-button class="permit-icon-button" value="confined" (click)="selectType('confined')">
+                <button *ngIf="typeControl.value != 'confined'" mat-stroked-button class="permit-icon-button"
+                    value="confined" (click)="selectType('confined')">
                     <tr>
                         <mat-icon svgIcon="confined" aria-hidden="false" aria-label="confined_icon"
                             class="permit-icon"></mat-icon>
@@ -74,8 +58,8 @@
                         Confined Space
                     </tr>
                 </button>
-                <button *ngIf="typeControl.value == 'confined'"
-                mat-flat-button color="primary" class="permit-icon-button" value="confined" (click)="selectType('confined')">
+                <button *ngIf="typeControl.value == 'confined'" mat-flat-button color="primary"
+                    class="permit-icon-button" value="confined" (click)="selectType('confined')">
                     <tr>
                         <mat-icon svgIcon="confined" aria-hidden="false" aria-label="confined_icon"
                             class="permit-icon"></mat-icon>
@@ -86,7 +70,7 @@
                 </button>
 
                 </tr>
-                
+
             </div>
 
             <div class="grid-container">
@@ -94,77 +78,124 @@
                     <tr>
                         <td> <mat-label for="name">Name:</mat-label> </td>
                         <td>
-                            <input matInput type="text" size="30" id="name" placeholder="Your name as your NRIC" formControlName="name">
+                            <input matInput type="text" size="30" id="name" placeholder="Your name as your NRIC"
+                                formControlName="name">
                         </td>
                     </tr>
                     <tr>
                         <td> <mat-label for="company">Company:</mat-label> </td>
                         <td>
-                        <input type="text" 
-                                placeholder ="Company Name"
-                                aria-label = "Company"
-                                matInput 
-                                [formControl]="companyControl" 
-                                [matAutocomplete]="companyauto"
-                               >
+                            <input type="text" placeholder="Company Name" aria-label="Company" matInput
+                                [formControl]="companyControl" [matAutocomplete]="companyauto">
 
-                        <mat-autocomplete #companyauto="matAutocomplete" >
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                {{option}}
-                              </mat-option>
-                        </mat-autocomplete>
+                            <mat-autocomplete #companyauto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
                         </td>
                     </tr>
                     <tr>
                         <td><label for="starttime">Start Time</label></td>
-                        <td><input type="datetime-local"
-                            formControlName="startdate"></td>
+                        <td><input type="datetime-local" formControlName="startdate"></td>
                     </tr>
                     <tr>
                         <td><label for="endtime">End Time</label></td>
-                        <td><input type="datetime-local"
-                            formControlName="enddate"></td>
+                        <td><input type="datetime-local" formControlName="enddate"></td>
                     </tr>
                     <tr>
                         <td> <label for="location">Location:</label> </td>
                         <td>
-                            <input type="text" 
-                            placeholder ="Location"
-                            aria-label = "Location"
-                            matInput 
-                            [formControl]="locationControl" 
-                            [matAutocomplete]="locationauto"
-                            >
+                            <input type="text" placeholder="Location" aria-label="Location" matInput
+                                [formControl]="locationControl" [matAutocomplete]="locationauto">
 
-                    <mat-autocomplete #locationauto="matAutocomplete" >
-                        <mat-option *ngFor="let location of filteredLocations | async" [value]="location">
-                            {{location}}
-                          </mat-option>
-                    </mat-autocomplete>
+                            <mat-autocomplete #locationauto="matAutocomplete">
+                                <mat-option *ngFor="let location of filteredLocations | async" [value]="location">
+                                    {{location}}
+                                </mat-option>
+                            </mat-autocomplete>
                         </td>
 
-                        
+
                     </tr>
                     <tr>
                         <td><label for="comments">Comments:</label></td>
                         <td>
-                            <textarea id="comments" cols="40" rows="5"
-                            formControlName="comment"></textarea>
+                            <textarea id="comments" cols="40" rows="5" formControlName="comment"></textarea>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>
                             <div class="justify-right">
-                                <button mat-flat-button color="primary" type="submit" [disabled]="invalidForm()">Send Permit Request</button>
+                                <button mat-flat-button color="primary" type="submit" [disabled]="invalidForm()">Send
+                                    Permit Request</button>
                             </div>
                         </td>
                     </tr>
                 </table>
             </div>
         </form>
+        <p> {{ Response | json}} </p>
     </mat-tab>
-    <mat-tab label="Pending">Pending</mat-tab>
-    <mat-tab label="Approved">Approved</mat-tab>
-    <mat-tab label="Closed">Closed</mat-tab>
+    <mat-tab label="Search">
+        <!-- Filtering Options -->
+        <form [formGroup]="searchGroup" (submit)="submitSearch()">
+            <mat-form-field>
+              <mat-label>Filter by Type</mat-label>
+              <select matNativeControl formControlName="type">
+                <option value=""></option>
+                <option value="hot">Hot</option>
+                <option value="cold">Cold</option>
+                <option value="confined">Confined Space</option>
+              </select>
+            </mat-form-field>
+          
+            <mat-form-field>
+              <mat-label>Filter by Location</mat-label>
+              <input matInput placeholder="Locations" formControlName="locations">
+            </mat-form-field>
+          
+            <mat-form-field>
+              <mat-label>Filter by Status</mat-label>
+              <select matNativeControl formControlName="status">
+                <option value=""></option>
+                <option value="pending">Pending</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="cancel">Cancel</option>
+              </select>
+            </mat-form-field>
+          
+            <button mat-flat-button color="primary" type="submit">Search</button>
+          </form>
+        <!-- Permits Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Serial Number</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Location</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let permit of (permits$ | async) as permits">
+                    <td>{{ permit.id }}</td>
+                    <td>{{ permit.name }}</td>
+                    <td>{{ permit.type }}</td>
+                    <td>{{ permit.locations }}</td>
+                    <td>{{ permit.startdate }}</td>
+                    <td>{{ permit.enddate }}</td>
+                    <td>{{ permit.comment }}</td>
+                </tr>
+                <tr *ngIf="!(permits$ | async)">
+                    <td colspan="7">No permits found</td>
+            </tbody>
+        </table>
+    </mat-tab>
+    <mat-tab label="On-going">Approved</mat-tab>
 </mat-tab-group>

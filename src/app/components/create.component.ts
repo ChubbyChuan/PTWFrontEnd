@@ -9,6 +9,7 @@ import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from "@angular/common/http";
 import { PTWService } from '../PTW.service';
+import { Permit, SearchQuery } from '../ModelandConstants/model';
 
 //SVG link
 const hot = HOT_ICON
@@ -33,7 +34,7 @@ export class CreateComponent implements OnInit {
 
 
   //FormControl for autocomplete
-  typeControl = new FormControl('hot', [Validators.required, Validators.minLength(1)])
+  typeControl = new FormControl('', [Validators.required, Validators.minLength(1)])
   companyControl = new FormControl('GSK', [Validators.required, Validators.minLength(1)])
   locationControl = new FormControl('Production', [Validators.required, Validators.minLength(1)])
 
@@ -56,18 +57,23 @@ export class CreateComponent implements OnInit {
 
   //form
   Form!: FormGroup
+  searchGroup!: FormGroup
 
-  //variable
-
+  //variable + Observable
+  Response!: String
+  permits$!: Observable<Permit[]>
 
 
   ngOnInit(): void {
+
+
+    /*----------------Create------------------------*/
 
     //linking the svg file to the respective tag in html
     this.iconRegistry.addSvgIconLiteral('hot', this.sanitizer.bypassSecurityTrustHtml(hot))
     this.iconRegistry.addSvgIconLiteral('cold', this.sanitizer.bypassSecurityTrustHtml(cold))
     this.iconRegistry.addSvgIconLiteral('confined', this.sanitizer.bypassSecurityTrustHtml(confined))
-    
+
     // linking the company name input observable to companyControlgroup. If there is any changes, it will be process as lowercase to match  
     this.filteredOptions = this.companyControl.valueChanges.pipe(
       startWith(''),
@@ -78,41 +84,78 @@ export class CreateComponent implements OnInit {
       map(value => this._locationfilter(value || '')),
     );
     // instantitae the form with the formbuilder
-    this.Form = this.createFormWithFormBuilder();
+    this.Form = this.createFormWithFormBuilder()
+
+
+    /*----------------Search -----------------------*/
+    this.searchGroup = this.createFormSearch()
+    this.permits$ = this.ptwSvc.searchPTW(this.searchGroup.value)
+    
   }
 
   invalidForm() {
     return this.Form.invalid
   }
-  
-  selectType(category: string){
+
+  selectType(category: string) {
     this.typeControl.setValue(category)
     console.log(this.typeControl)
   }
 
-  submitRequest(){
+    /*----------------------------------------------*/
+    /*----------------Create -----------------------*/
+    /*----------------------------------------------*/
+  submitRequest() {
     const request: Request = this.Form.value
-        console.info('>> processing form: ', request)
-        this.ptwSvc.createPTW(request).subscribe(
-          response => {
-            console.log('Response from server:', response)
-            // Handle the response here
-            const newPermitId = response as string;
-            console.log('New Permit ID:', newPermitId);
+    console.info('>> processing form: ', request)
+    this.ptwSvc.createPTW(request).subscribe(
+      (response: any) => {
+        console.log('Response from server:', response)
+        // Response from backend is Json.
+        // this.Response = JSON.stringify(response).replace(/[^a-zA-Z0-9 ]/g, '')
+        this.Response = JSON.stringify(response).replace(/[{\}""]/g, '')
 
-          },
-          error => {
-            console.error('Error occurred:', error);
-            // Handle the error here
-           
-          }
-        )
-  } 
 
+      },
+      (error: any) => {
+        console.error('Error occurred:', error)
+        // Handle the error here
+        this.Response = JSON.stringify(error)
+        this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '')
+
+      }
+    )
+    this.Form.reset()
+  }
+
+    /*----------------------------------------------*/
+    /*----------------Search -----------------------*/
+    /*----------------------------------------------*/
+
+  submitSearch() {
+    const searchQuery: SearchQuery = this.searchGroup.value
+    console.info('>> search form: ', searchQuery)
+    this.permits$! = new Observable<Permit[]>((subscriber) => {
+      const subscription = this.ptwSvc.searchPTW(searchQuery).subscribe(
+        (permits: Permit[]) => {
+          subscriber.next(permits);
+          subscriber.complete();
+        },
+        (error: any) => {
+          subscriber.error(error);
+        }
+      );
   
+      return () => {
+        subscription.unsubscribe();
+      }
+    })
+  }
 
 
-/*-------------------------------------------------------*/
+
+
+  /*-------------------------------------------------------*/
   // to provide function to change everything to lower case
   private _optionfilter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -139,4 +182,13 @@ export class CreateComponent implements OnInit {
       comment: this.fb.control<string>('No Comment')
     })
   }
+
+  private createFormSearch(): FormGroup {
+    return this.fb.group({
+      type: this.fb.control<string>('cold'),
+      locations: this.fb.control<string>('Production'),
+      status: this.fb.control<string>('pending')
+    })
+  }
+
 }
