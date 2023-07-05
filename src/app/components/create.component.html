@@ -1,5 +1,5 @@
 <mat-tab-group>
-    <mat-tab label="Create">
+    <mat-tab label="Create/Edit">
         <form [formGroup]="Form" (submit)="submitRequest()">
             <div>
                 <tr>
@@ -96,6 +96,13 @@
                         </td>
                     </tr>
                     <tr>
+                        <td> <mat-label for="equipment">Equipment:</mat-label> </td>
+                        <td>
+                            <input matInput type="text" size="30" id="name" placeholder="Equipment"
+                                formControlName="equipment">
+                        </td>
+                    </tr>
+                    <tr>
                         <td><label for="starttime">Start Time</label></td>
                         <td><input type="datetime-local" formControlName="startdate"></td>
                     </tr>
@@ -137,65 +144,114 @@
             </div>
         </form>
         <p> {{ Response | json}} </p>
+
     </mat-tab>
-    <mat-tab label="Search">
+    <mat-tab label="Pending">
         <!-- Filtering Options -->
-        <form [formGroup]="searchGroup" (submit)="submitSearch()">
+        <form [formGroup]="pendingGroup" (submit)="pendingSearch()">
             <mat-form-field>
-              <mat-label>Filter by Type</mat-label>
-              <select matNativeControl formControlName="type">
-                <option value=""></option>
-                <option value="hot">Hot</option>
-                <option value="cold">Cold</option>
-                <option value="confined">Confined Space</option>
-              </select>
+                <mat-label>Filter by Type</mat-label>
+                <select matNativeControl formControlName="type">
+                    <option value=""></option>
+                    <option value="hot">Hot</option>
+                    <option value="cold">Cold</option>
+                    <option value="confined">Confined Space</option>
+                </select>
             </mat-form-field>
-          
+
             <mat-form-field>
-              <mat-label>Filter by Location</mat-label>
-              <input matInput placeholder="Locations" formControlName="locations">
+                <mat-label>Filter by Location</mat-label>
+                <input matInput placeholder="Locations" formControlName="locations">
             </mat-form-field>
-          
-            <mat-form-field>
-              <mat-label>Filter by Status</mat-label>
-              <select matNativeControl formControlName="status">
-                <option value=""></option>
-                <option value="pending">Pending</option>
-                <option value="open">Open</option>
-                <option value="closed">Closed</option>
-                <option value="cancel">Cancel</option>
-              </select>
-            </mat-form-field>
-          
+
             <button mat-flat-button color="primary" type="submit">Search</button>
-          </form>
-        <!-- Permits Table -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Serial Number</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Location</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let permit of (permits$ | async) as permits">
-                    <td>{{ permit.id }}</td>
-                    <td>{{ permit.name }}</td>
-                    <td>{{ permit.type }}</td>
-                    <td>{{ permit.locations }}</td>
-                    <td>{{ permit.startdate }}</td>
-                    <td>{{ permit.enddate }}</td>
-                    <td>{{ permit.comment }}</td>
-                </tr>
-                <tr *ngIf="!(permits$ | async)">
-                    <td colspan="7">No permits found</td>
-            </tbody>
-        </table>
+        </form>
+
+        <!-- Permits Card -->
+        <mat-card class="PTWcard" *ngFor="let permit of (pendingpermits$ | async) as permits">
+            <mat-card-header>
+                <div mat-card-avatar class="PTWCardheader_div">
+                    <mat-icon [svgIcon]="permit.type" aria-hidden="false" aria-label="hot_icon"
+                        class="PTWcard-icon"></mat-icon>
+                        <h4 style="text-align: center;">#{{ permit.id }}</h4>
+                </div>
+                <mat-card-title>
+                    {{ permit.locations }}
+                </mat-card-title>
+                <mat-card-subtitle>{{ permit.equipment }}</mat-card-subtitle>
+                <mat-card-subtitle  matTooltip="{{ permit.startdate | date: 'dd-MMM HH:mm a' }}">
+                   Start: {{ permit.startdate | date: 'HH:mm a' }}
+                </mat-card-subtitle>
+                <mat-card-subtitle  matTooltip="{{ permit.enddate | date: 'dd-MMM HH:mm a' }}">
+                    End: {{ permit.enddate | date: 'HH:mm a' }}
+                 </mat-card-subtitle>
+                <!-- End: <br> {{ permit.startdate | date: 'dd-MMM HH:mm a' }} -->
+                <!-- End: <br> {{ permit.enddate | date: 'dd-MMM HH:mm a' }} -->
+            </mat-card-header>
+            <br>
+            <mat-card-content>
+                <p>
+                    {{ permit.comment }}
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button color="primary" (click)="editEntry(permit.id)">EDIT</button>
+                <button mat-button color="primary" (click)="cancelEntry(permit.id)">CANCEL</button>
+            </mat-card-actions>
+        </mat-card>
+
     </mat-tab>
-    <mat-tab label="On-going">Approved</mat-tab>
+    <mat-tab label="Approved">
+                <!-- Filtering Options -->
+        <form [formGroup]="approvedGroup" (submit)="approvedSearch()">
+            <mat-form-field>
+                <mat-label>Filter by Type</mat-label>
+                <select matNativeControl formControlName="type">
+                    <option value=""></option>
+                    <option value="hot">Hot</option>
+                    <option value="cold">Cold</option>
+                    <option value="confined">Confined Space</option>
+                </select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Filter by Location</mat-label>
+                <input matInput placeholder="Locations" formControlName="locations">
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" type="submit">Search</button>
+        </form>
+
+        <!-- Permits Card -->
+        <mat-card class="PTWcard" *ngFor="let permit of (approvedpermits$ | async) as permits">
+            <mat-card-header>
+                <div mat-card-avatar class="PTWCardheader_div">
+                    <mat-icon [svgIcon]="permit.type" aria-hidden="false" aria-label="hot_icon"
+                        class="PTWcard-icon"></mat-icon>
+                        <h4 style="text-align: center;">#{{ permit.id }}</h4>
+                </div>
+                <mat-card-title>
+                    {{ permit.locations }}
+                </mat-card-title>
+                <mat-card-subtitle>{{ permit.equipment }}</mat-card-subtitle>
+                <mat-card-subtitle  matTooltip="{{ permit.startdate | date: 'dd-MMM HH:mm a' }}">
+                   Start: {{ permit.startdate | date: 'HH:mm a' }}
+                </mat-card-subtitle>
+                <mat-card-subtitle  matTooltip="{{ permit.enddate | date: 'dd-MMM HH:mm a' }}">
+                    End: {{ permit.enddate | date: 'HH:mm a' }}
+                 </mat-card-subtitle>
+                <!-- End: <br> {{ permit.startdate | date: 'dd-MMM HH:mm a' }} -->
+                <!-- End: <br> {{ permit.enddate | date: 'dd-MMM HH:mm a' }} -->
+            </mat-card-header>
+            <br>
+            <mat-card-content>
+                <p>
+                    {{ permit.comment }}
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button color="primary" (click)="closeEntry(permit.id)">Close Permit</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-tab>
 </mat-tab-group>

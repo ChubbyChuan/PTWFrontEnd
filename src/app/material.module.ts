@@ -10,11 +10,15 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const matModules: any[] = [
   MatToolbarModule, MatButtonModule, MatIconModule,
   MatInputModule, MatFormFieldModule,MatSelectModule, MatMenuModule, 
   MatTabsModule, MatSidenavModule, MatAutocompleteModule,
+  MatCardModule, MatDividerModule, MatTooltipModule
 ]
 
 

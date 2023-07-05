@@ -7,6 +7,7 @@ export interface Request{
     type: string
     name: string
     company: string
+    equipment: string
     startdate: Date
     enddate: Date
     locations: string
@@ -18,6 +19,7 @@ export interface Permit{
     type: string
     name: string
     company: string
+    equipment: string
     startdate: Date
     enddate: Date
     locations: string
@@ -26,8 +28,8 @@ export interface Permit{
 }
 
 export interface SearchQuery{
-    type: string
     // name: string
+    type: string
     locations: string
     status: string
     // page: number

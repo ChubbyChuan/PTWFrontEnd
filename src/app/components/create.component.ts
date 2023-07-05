@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { COMPANIES, LOCATIONS, OPTIONS } from '../ModelandConstants/constant';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, startWith } from 'rxjs/operators';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { HttpClient } from "@angular/common/http";
 import { PTWService } from '../PTW.service';
 import { Permit, SearchQuery } from '../ModelandConstants/model';
@@ -19,8 +19,6 @@ const confined = CONFINED_ICON
 
 
 //variable
-
-
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -37,6 +35,9 @@ export class CreateComponent implements OnInit {
   typeControl = new FormControl('', [Validators.required, Validators.minLength(1)])
   companyControl = new FormControl('GSK', [Validators.required, Validators.minLength(1)])
   locationControl = new FormControl('Production', [Validators.required, Validators.minLength(1)])
+
+  //FormControl for searches (pending, approved, closed, cancelled)
+  statusSearchControl = new FormControl('pending')
 
 
   //implementing observables
@@ -57,12 +58,13 @@ export class CreateComponent implements OnInit {
 
   //form
   Form!: FormGroup
-  searchGroup!: FormGroup
+  pendingGroup!: FormGroup
+  approvedGroup!: FormGroup
 
   //variable + Observable
   Response!: String
-  permits$!: Observable<Permit[]>
-
+  pendingpermits$!: Observable<Permit[]>
+  approvedpermits$!: Observable<Permit[]>
 
   ngOnInit(): void {
 
@@ -88,9 +90,11 @@ export class CreateComponent implements OnInit {
 
 
     /*----------------Search -----------------------*/
-    this.searchGroup = this.createFormSearch()
-    this.permits$ = this.ptwSvc.searchPTW(this.searchGroup.value)
-    
+    this.pendingGroup = this.createFormSearch()
+    this.pendingpermits$ = this.ptwSvc.searchPTW(this.pendingGroup.value)
+    this.approvedGroup = this.createFormSearch()
+    this.approvedpermits$ = this.ptwSvc.searchPTW(this.pendingGroup.value)
+
   }
 
   invalidForm() {
@@ -102,12 +106,12 @@ export class CreateComponent implements OnInit {
     console.log(this.typeControl)
   }
 
-    /*----------------------------------------------*/
-    /*----------------Create -----------------------*/
-    /*----------------------------------------------*/
+  /*----------------------------------------------*/
+  /*----------------Create -----------------------*/
+  /*----------------------------------------------*/
   submitRequest() {
     const request: Request = this.Form.value
-    console.info('>> processing form: ', request)
+    console.info('>> creaete Entry: ', request)
     this.ptwSvc.createPTW(request).subscribe(
       (response: any) => {
         console.log('Response from server:', response)
@@ -128,14 +132,16 @@ export class CreateComponent implements OnInit {
     this.Form.reset()
   }
 
-    /*----------------------------------------------*/
-    /*----------------Search -----------------------*/
-    /*----------------------------------------------*/
+  /*----------------------------------------------*/
+  /*---Search for pending. approved and pending---*/
+  /*----------------------------------------------*/
 
-  submitSearch() {
-    const searchQuery: SearchQuery = this.searchGroup.value
-    console.info('>> search form: ', searchQuery)
-    this.permits$! = new Observable<Permit[]>((subscriber) => {
+  pendingSearch() {
+    this.statusSearchControl.setValue("pending")
+
+    const searchQuery: SearchQuery = this.pendingGroup.value
+    console.info('>> Pending search form: ', searchQuery)
+    this.pendingpermits$! = new Observable<Permit[]>((subscriber) => {
       const subscription = this.ptwSvc.searchPTW(searchQuery).subscribe(
         (permits: Permit[]) => {
           subscriber.next(permits);
@@ -143,15 +149,48 @@ export class CreateComponent implements OnInit {
         },
         (error: any) => {
           subscriber.error(error);
-        }
-      );
-  
+        })
+
       return () => {
         subscription.unsubscribe();
       }
     })
   }
 
+  editEntry(id : Number) {
+    console.info('>> edit Entry id: ', id)
+    
+  }
+
+  cancelEntry(id : Number) {
+    console.info('>> cancel Entry id: ', id)
+    
+  }
+
+  closeEntry(id : Number) {
+    console.info('>> close Entry id: ', id)
+  }
+
+  approvedSearch() {
+    this.statusSearchControl.setValue("approved")
+
+    const searchQuery: SearchQuery = this.approvedGroup.value
+    console.info('>> Approved search form: ', searchQuery)
+    this.approvedpermits$! = new Observable<Permit[]>((subscriber) => {
+      const subscription = this.ptwSvc.searchPTW(searchQuery).subscribe(
+        (permits: Permit[]) => {
+          subscriber.next(permits);
+          subscriber.complete();
+        },
+        (error: any) => {
+          subscriber.error(error);
+        })
+
+      return () => {
+        subscription.unsubscribe();
+      }
+    })
+  }
 
 
 
@@ -169,14 +208,15 @@ export class CreateComponent implements OnInit {
   //formbuilder
   private createFormWithFormBuilder(): FormGroup {
     const datePipe = new DatePipe('en-US')
-    // const defaultDate = datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm') //default date is today
-    const defaultDate = datePipe.transform(new Date(), 'dd-MM-yyyyTHH:mm') //default date is today
+    const defaultDate = datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm') //default date is today
+    // const defaultDate = datePipe.transform(new Date(), 'dd-MM-yyyyTHH:mm') //default date is today
 
     return this.fb.group({
       type: this.typeControl,
-      name: this.fb.control<string>('Wee Chuan', [Validators.required, Validators.minLength(3)]),
+      name: this.fb.control<string>('Wee Chuan', [Validators.required, Validators.minLength(3)]), //TODO - Change the variable once you finalise the login
+      equipment: this.fb.control<string>('P-211', [Validators.required, Validators.minLength(3)]),
       company: this.companyControl,
-      startdate: [defaultDate],
+      startdate: [defaultDate], //solve the reverse dates!
       enddate: [defaultDate],
       location: this.locationControl,
       comment: this.fb.control<string>('No Comment')
@@ -185,9 +225,9 @@ export class CreateComponent implements OnInit {
 
   private createFormSearch(): FormGroup {
     return this.fb.group({
-      type: this.fb.control<string>('cold'),
+      type: this.fb.control<string>(''),
       locations: this.fb.control<string>('Production'),
-      status: this.fb.control<string>('pending')
+      status: this.statusSearchControl
     })
   }
 
