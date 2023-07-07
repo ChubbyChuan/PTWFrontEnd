@@ -1,10 +1,17 @@
 <mat-tab-group>
     <mat-tab label="Create/Edit">
-        <form [formGroup]="Form" (submit)="submitRequest()">
+        <form [formGroup]="Form" >
             <div>
                 <tr>
-                    Select Category
-                </tr>
+                    <button mat-flat-button color=""  (click)="onCreateEdit()">
+                        {{ searchState === 'edit' ? 'Edit' : (searchState === 'create' ? 'Create' : 'Create/Edit') }}
+                    </button>
+                    
+                    <input *ngIf="searchState !== 'create'" matInput type="number" size="30" id="id" 
+                    [disabled]="searchState === 'edit'" placeholder="Key in Permit Number" [formControl]="idControl">
+             
+            </div>
+            <div *ngIf="searchState !== ''">
                 <tr>
                     <button *ngIf="typeControl.value != 'hot'" mat-stroked-button class="permit-icon-button" value="hot"
                         (click)="selectType('hot')">
@@ -73,7 +80,7 @@
 
             </div>
 
-            <div class="grid-container">
+            <div *ngIf="searchState !== ''" class="grid-container">
                 <table mat-table class="formlabel">
                     <tr>
                         <td> <mat-label for="name">Name:</mat-label> </td>
@@ -135,8 +142,11 @@
                         <td></td>
                         <td>
                             <div class="justify-right">
-                                <button mat-flat-button color="primary" type="submit" [disabled]="invalidForm()">Send
-                                    Permit Request</button>
+                                <button mat-flat-button color="primary" type="button" (click)="submitRequest()"[disabled]="invalidForm()">
+                                    {{ searchState !== 'create' ? 'Edit Request' : 'Send Permit Request' }}
+                                   </button>
+                                <button mat-flat-button color="primary" type="button" (click)="cancelCreateEdit()">
+                                        Cancel</button>
                             </div>
                         </td>
                     </tr>
@@ -173,18 +183,18 @@
                 <div mat-card-avatar class="PTWCardheader_div">
                     <mat-icon [svgIcon]="permit.type" aria-hidden="false" aria-label="hot_icon"
                         class="PTWcard-icon"></mat-icon>
-                        <h4 style="text-align: center;">#{{ permit.id }}</h4>
+                    <h4 style="text-align: center;">#{{ permit.id }}</h4>
                 </div>
                 <mat-card-title>
                     {{ permit.locations }}
                 </mat-card-title>
                 <mat-card-subtitle>{{ permit.equipment }}</mat-card-subtitle>
-                <mat-card-subtitle  matTooltip="{{ permit.startdate | date: 'dd-MMM HH:mm a' }}">
-                   Start: {{ permit.startdate | date: 'HH:mm a' }}
+                <mat-card-subtitle matTooltip="{{ permit.startdate | date: 'dd-MMM HH:mm a' }}">
+                    Start: {{ permit.startdate | date: 'HH:mm a' }}
                 </mat-card-subtitle>
-                <mat-card-subtitle  matTooltip="{{ permit.enddate | date: 'dd-MMM HH:mm a' }}">
+                <mat-card-subtitle matTooltip="{{ permit.enddate | date: 'dd-MMM HH:mm a' }}">
                     End: {{ permit.enddate | date: 'HH:mm a' }}
-                 </mat-card-subtitle>
+                </mat-card-subtitle>
                 <!-- End: <br> {{ permit.startdate | date: 'dd-MMM HH:mm a' }} -->
                 <!-- End: <br> {{ permit.enddate | date: 'dd-MMM HH:mm a' }} -->
             </mat-card-header>
@@ -202,7 +212,7 @@
 
     </mat-tab>
     <mat-tab label="Approved">
-                <!-- Filtering Options -->
+        <!-- Filtering Options -->
         <form [formGroup]="approvedGroup" (submit)="approvedSearch()">
             <mat-form-field>
                 <mat-label>Filter by Type</mat-label>
@@ -228,18 +238,18 @@
                 <div mat-card-avatar class="PTWCardheader_div">
                     <mat-icon [svgIcon]="permit.type" aria-hidden="false" aria-label="hot_icon"
                         class="PTWcard-icon"></mat-icon>
-                        <h4 style="text-align: center;">#{{ permit.id }}</h4>
+                    <h4 style="text-align: center;">#{{ permit.id }}</h4>
                 </div>
                 <mat-card-title>
                     {{ permit.locations }}
                 </mat-card-title>
                 <mat-card-subtitle>{{ permit.equipment }}</mat-card-subtitle>
-                <mat-card-subtitle  matTooltip="{{ permit.startdate | date: 'dd-MMM HH:mm a' }}">
-                   Start: {{ permit.startdate | date: 'HH:mm a' }}
+                <mat-card-subtitle matTooltip="{{ permit.startdate | date: 'dd-MMM HH:mm a' }}">
+                    Start: {{ permit.startdate | date: 'HH:mm a' }}
                 </mat-card-subtitle>
-                <mat-card-subtitle  matTooltip="{{ permit.enddate | date: 'dd-MMM HH:mm a' }}">
+                <mat-card-subtitle matTooltip="{{ permit.enddate | date: 'dd-MMM HH:mm a' }}">
                     End: {{ permit.enddate | date: 'HH:mm a' }}
-                 </mat-card-subtitle>
+                </mat-card-subtitle>
                 <!-- End: <br> {{ permit.startdate | date: 'dd-MMM HH:mm a' }} -->
                 <!-- End: <br> {{ permit.enddate | date: 'dd-MMM HH:mm a' }} -->
             </mat-card-header>

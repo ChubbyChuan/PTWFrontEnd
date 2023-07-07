@@ -17,8 +17,8 @@ export class AppComponent {
     switch (currentRoute) {
       case '/create':
         return 'Permit';
-      case '/receiver':
-        return 'Receiver';
+      case '/approval':
+        return 'Approval';
       // Add more cases for other routes if needed
       default:
         return '';

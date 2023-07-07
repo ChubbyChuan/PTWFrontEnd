@@ -36,9 +36,10 @@ export class CreateComponent implements OnInit {
   companyControl = new FormControl('GSK', [Validators.required, Validators.minLength(1)])
   locationControl = new FormControl('Production', [Validators.required, Validators.minLength(1)])
 
+
   //FormControl for searches (pending, approved, closed, cancelled)
   statusSearchControl = new FormControl('pending')
-
+  idControl = new FormControl<number| null>(null)
 
   //implementing observables
   filteredOptions!: Observable<string[]> //input company name
@@ -65,10 +66,10 @@ export class CreateComponent implements OnInit {
   Response!: String
   pendingpermits$!: Observable<Permit[]>
   approvedpermits$!: Observable<Permit[]>
+  searchState: string = ''
+  permitNumber!: number
 
   ngOnInit(): void {
-
-
     /*----------------Create------------------------*/
 
     //linking the svg file to the respective tag in html
@@ -104,6 +105,19 @@ export class CreateComponent implements OnInit {
   selectType(category: string) {
     this.typeControl.setValue(category)
     console.log(this.typeControl)
+  } 
+
+  onCreateEdit() {
+    if (this.idControl.value === null) {
+      this.searchState = "create"
+    } else {
+      this.searchState = "edit"
+    }
+  }
+
+  cancelCreateEdit() {
+    this.searchState = ''
+    this.Form.reset
   }
 
   /*----------------------------------------------*/
@@ -111,26 +125,24 @@ export class CreateComponent implements OnInit {
   /*----------------------------------------------*/
   submitRequest() {
     const request: Request = this.Form.value
-    console.info('>> creaete Entry: ', request)
+    console.info('>> create Entry: ', request)
     this.ptwSvc.createPTW(request).subscribe(
       (response: any) => {
         console.log('Response from server:', response)
         // Response from backend is Json.
         // this.Response = JSON.stringify(response).replace(/[^a-zA-Z0-9 ]/g, '')
         this.Response = JSON.stringify(response).replace(/[{\}""]/g, '')
-
-
       },
       (error: any) => {
         console.error('Error occurred:', error)
         // Handle the error here
         this.Response = JSON.stringify(error)
         this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '')
-
       }
     )
     this.Form.reset()
   }
+
 
   /*----------------------------------------------*/
   /*---Search for pending. approved and pending---*/

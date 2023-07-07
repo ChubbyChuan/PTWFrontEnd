@@ -20,6 +20,10 @@ export class PTWService {
     searchPTW(SQ: SearchQuery): Observable<Permit[]> {
       return this.http.post<Permit[]>(URL_Search, SQ)
     }
+
+    searchPTWbyId(id: number): Observable<Permit[]> {
+      return this.http.post<Permit[]>(URL_Search, id)
+    }
     
     updatePTW(id: number): Observable<Permit[]> {
       return this.http.post<any>(URL_Update, id)

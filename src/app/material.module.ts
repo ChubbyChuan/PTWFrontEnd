@@ -13,12 +13,16 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatExpansionModule} from '@angular/material/expansion'
 
 const matModules: any[] = [
   MatToolbarModule, MatButtonModule, MatIconModule,
   MatInputModule, MatFormFieldModule,MatSelectModule, MatMenuModule, 
   MatTabsModule, MatSidenavModule, MatAutocompleteModule,
-  MatCardModule, MatDividerModule, MatTooltipModule
+  MatCardModule, MatDividerModule, MatTooltipModule,
+  MatCheckboxModule, MatSlideToggleModule, MatExpansionModule
 ]
 
 
