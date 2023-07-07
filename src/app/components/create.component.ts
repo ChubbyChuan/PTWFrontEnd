@@ -39,7 +39,7 @@ export class CreateComponent implements OnInit {
 
   //FormControl for searches (pending, approved, closed, cancelled)
   statusSearchControl = new FormControl('pending')
-  idControl = new FormControl<number| null>(null)
+  idControl = new FormControl<number | null>(null)
 
   //implementing observables
   filteredOptions!: Observable<string[]> //input company name
@@ -105,44 +105,73 @@ export class CreateComponent implements OnInit {
   selectType(category: string) {
     this.typeControl.setValue(category)
     console.log(this.typeControl)
-  } 
+  }
 
   onCreateEdit() {
     if (this.idControl.value === null) {
       this.searchState = "create"
+      this.Form.reset
     } else {
       this.searchState = "edit"
+      console.info('>> edit request Id: ', this.idControl.value)
+      this.ptwSvc.searchPTWbyId(this.idControl.value).subscribe(
+        (response: any) => {
+          // Handle the response here
+          console.log('Response from searchPTWbyId:', response)
+          this.populateForm(response);
+        },
+        (error: any) => {
+          // Handle the error here
+          console.error('Error occurred during searchPTWbyId:', error);
+        }
+      )
     }
   }
 
   cancelCreateEdit() {
     this.searchState = ''
     this.Form.reset
+    this.idControl.setValue(null)
   }
 
   /*----------------------------------------------*/
   /*----------------Create -----------------------*/
   /*----------------------------------------------*/
   submitRequest() {
-    const request: Request = this.Form.value
-    console.info('>> create Entry: ', request)
-    this.ptwSvc.createPTW(request).subscribe(
-      (response: any) => {
-        console.log('Response from server:', response)
-        // Response from backend is Json.
-        // this.Response = JSON.stringify(response).replace(/[^a-zA-Z0-9 ]/g, '')
-        this.Response = JSON.stringify(response).replace(/[{\}""]/g, '')
-      },
-      (error: any) => {
-        console.error('Error occurred:', error)
-        // Handle the error here
-        this.Response = JSON.stringify(error)
-        this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '')
-      }
-    )
+    const request: Request = this.Form.value;
+    console.info('>> create/edit Entry: ', request);
+  
+    if (this.searchState === 'create') {
+      console.info('>> create Entry: ', request)
+      this.ptwSvc.createPTW(request).subscribe(
+        (response: any) => {
+          console.log('Response from server:', response);
+          this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
+        },
+        (error: any) => {
+          console.error('Error occurred:', error);
+          this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '');
+        }
+      );
+    } else if (this.searchState === 'edit' && this.idControl.value !== null) {
+      console.info('>> edit Entry: ', request)
+      this.ptwSvc.updatePTW(this.idControl.value, request).subscribe(
+        (response: any) => {
+          
+          // console.log('Response from server:', response);
+          // this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
+        },
+        (error: any) => {
+          // console.error('Error occurred:', error);
+          // this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '');
+        }
+      );
+    }
+  
     this.Form.reset()
+    this.searchState = ""
   }
-
+  
 
   /*----------------------------------------------*/
   /*---Search for pending. approved and pending---*/
@@ -169,17 +198,17 @@ export class CreateComponent implements OnInit {
     })
   }
 
-  editEntry(id : Number) {
+  editEntry(id: Number) {
     console.info('>> edit Entry id: ', id)
-    
+
   }
 
-  cancelEntry(id : Number) {
+  cancelEntry(id: Number) {
     console.info('>> cancel Entry id: ', id)
-    
+
   }
 
-  closeEntry(id : Number) {
+  closeEntry(id: Number) {
     console.info('>> close Entry id: ', id)
   }
 
@@ -226,21 +255,35 @@ export class CreateComponent implements OnInit {
     return this.fb.group({
       type: this.typeControl,
       name: this.fb.control<string>('Wee Chuan', [Validators.required, Validators.minLength(3)]), //TODO - Change the variable once you finalise the login
-      equipment: this.fb.control<string>('P-211', [Validators.required, Validators.minLength(3)]),
+      equipment: this.fb.control<string>('V-52', [Validators.required, Validators.minLength(3)]),
       company: this.companyControl,
       startdate: [defaultDate], //solve the reverse dates!
       enddate: [defaultDate],
       location: this.locationControl,
-      comment: this.fb.control<string>('No Comment')
+      comment: this.fb.control<string>('Testing Comments')
     })
   }
 
   private createFormSearch(): FormGroup {
     return this.fb.group({
       type: this.fb.control<string>(''),
-      locations: this.fb.control<string>('Production'),
+      locations: this.fb.control<string>(''),
       status: this.statusSearchControl
     })
+  }
+
+  populateForm(data: Permit) {
+    this.Form.patchValue({
+      // type: this.typeControl.setValue(data.type),
+      type: data.type,
+      name: data.name,
+      equipment: data.equipment,
+      company: data.company,
+      startdate: data.startdate,
+      enddate: data.enddate,
+      location: data.locations,
+      comment: data.comment
+    });
   }
 
 }
