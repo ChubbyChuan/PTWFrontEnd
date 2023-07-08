@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry, MatIconModule } from '@angular/material/icon';
 import { COLD_ICON, CONFINED_ICON, HOT_ICON } from '../ModelandConstants/iconConstant';
@@ -10,6 +10,7 @@ import { DatePipe, formatDate } from '@angular/common';
 import { HttpClient } from "@angular/common/http";
 import { PTWService } from '../PTW.service';
 import { Permit, SearchQuery } from '../ModelandConstants/model';
+import { MatTabGroup } from '@angular/material/tabs';
 
 //SVG link
 const hot = HOT_ICON
@@ -25,6 +26,10 @@ const confined = CONFINED_ICON
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
+
+  //View Componenet for tab Search
+  @ViewChild('tabGroup') tabGroup!: MatTabGroup
+
 
   // bring in the constants
   options = OPTIONS
@@ -109,24 +114,25 @@ export class CreateComponent implements OnInit {
 
   onCreateEdit() {
     if (this.idControl.value === null) {
-      this.searchState = "create"
-      this.Form.reset
+      this.searchState = "create";
+      this.Form.reset();
     } else {
-      this.searchState = "edit"
-      console.info('>> edit request Id: ', this.idControl.value)
+      this.searchState = "edit";
+      console.info('>> edit request Id: ', this.idControl.value);
       this.ptwSvc.searchPTWbyId(this.idControl.value).subscribe(
-        (response: any) => {
+        (response: Permit) => {
           // Handle the response here
-          console.log('Response from searchPTWbyId:', response)
+          console.log('Response from searchPTWbyId:', response);
           this.populateForm(response);
         },
         (error: any) => {
           // Handle the error here
           console.error('Error occurred during searchPTWbyId:', error);
         }
-      )
+      );
     }
   }
+  
 
   cancelCreateEdit() {
     this.searchState = ''
@@ -158,11 +164,11 @@ export class CreateComponent implements OnInit {
       this.ptwSvc.updatePTW(this.idControl.value, request).subscribe(
         (response: any) => {
           
-          // console.log('Response from server:', response);
+          console.log('Response from server:', response);
           // this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
         },
         (error: any) => {
-          // console.error('Error occurred:', error);
+          console.error('Error occurred:', error);
           // this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '');
         }
       );
@@ -198,17 +204,30 @@ export class CreateComponent implements OnInit {
     })
   }
 
-  editEntry(id: Number) {
+  editEntry(id: number) {
+    this.tabGroup.selectedIndex = 0
+    this.idControl.setValue(id)
+    this.onCreateEdit()
     console.info('>> edit Entry id: ', id)
 
   }
 
-  cancelEntry(id: Number) {
+  cancelEntry(id: number) {
     console.info('>> cancel Entry id: ', id)
+    this.ptwSvc.cancelPTW(id).subscribe(
+      (response: any) => {
+        console.log('Response from server:', response);
+        // this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
+      },
+      (error: any) => {
+        console.error('Error occurred:', error);
+        // this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '');
+      }
+    );
 
   }
 
-  closeEntry(id: Number) {
+  closeEntry(id: number) {
     console.info('>> close Entry id: ', id)
   }
 
@@ -274,7 +293,6 @@ export class CreateComponent implements OnInit {
 
   populateForm(data: Permit) {
     this.Form.patchValue({
-      // type: this.typeControl.setValue(data.type),
       type: data.type,
       name: data.name,
       equipment: data.equipment,
