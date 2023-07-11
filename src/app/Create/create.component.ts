@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map, startWith } from 'rxjs/operators';
 import { DatePipe, formatDate } from '@angular/common';
 import { HttpClient } from "@angular/common/http";
-import { PTWService } from '../PTW.service';
+import { PTWService } from '../Service/PTW.service';
 import { Permit, SearchQuery } from '../ModelandConstants/model';
 import { MatTabGroup } from '@angular/material/tabs';
 

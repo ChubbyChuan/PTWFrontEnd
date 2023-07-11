@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, startWith, map } from 'rxjs';
 import { HOT_ICON, COLD_ICON, CONFINED_ICON } from '../ModelandConstants/iconConstant';
 import { Permit, SearchQuery } from '../ModelandConstants/model';
-import { PTWService } from '../PTW.service';
+import { PTWService } from '../Service/PTW.service';
 
 
 //SVG link

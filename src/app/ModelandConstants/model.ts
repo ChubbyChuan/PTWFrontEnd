@@ -1,3 +1,16 @@
+export interface User{
+    email: string
+    password: string
+}
+
+export interface User_Registeration{
+    name: string
+    email: string
+    password: string
+}
+
+
+
 export interface Company{
     value: string;
     viewValue: string;
