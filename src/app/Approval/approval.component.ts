@@ -4,8 +4,11 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, startWith, map } from 'rxjs';
 import { HOT_ICON, COLD_ICON, CONFINED_ICON } from '../ModelandConstants/iconConstant';
-import { Permit, SearchQuery } from '../ModelandConstants/model';
+import { PPE, PRECAUTION, Permit, SearchQuery } from '../ModelandConstants/model';
 import { PTWService } from '../Service/PTW.service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { Work_Area } from '../ModelandConstants/model';
+import { PPE_LIST, PRECAUTION_LIST, WORK_AREA_LIST } from '../ModelandConstants/constant';
 
 
 //SVG link
@@ -23,8 +26,13 @@ const confined = CONFINED_ICON
 })
 
 export class ApprovalComponent implements OnInit{
-
   
+  // List for Workarea, PPE and etc for HTML
+  work_area_list: Work_Area[] = WORK_AREA_LIST
+  PPE_list: PPE[] = PPE_LIST
+  precaution_list: PRECAUTION[] = PRECAUTION_LIST
+  
+
   
 
   //FormControl for searches (pending, approved, closed, cancelled)

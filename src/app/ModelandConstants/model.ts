@@ -1,21 +1,24 @@
-export interface User{
-    email: string
-    password: string
-}
-
-export interface User_Registeration{
-    name: string
-    email: string
-    password: string
-}
-
-
-
 export interface Company{
     value: string;
     viewValue: string;
 }
 
+export interface Work_Area {
+    name: string;
+    label: string;
+}
+
+export interface PPE {
+    name: string;
+    label: string;
+}
+
+export interface PRECAUTION {
+    name: string;
+    label: string;
+}
+
+/* Model for Request + User*/
 export interface Request{
     type: string
     name: string
@@ -47,4 +50,16 @@ export interface SearchQuery{
     status: string
     // page: number
     // limit: number
+}
+
+export interface User{
+    email: string
+    password: string
+}
+
+
+export interface User_Registeration{
+    name: string
+    email: string
+    password: string
 }
