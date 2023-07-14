@@ -3,7 +3,6 @@ import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { Permit, SearchQuery } from "../ModelandConstants/model";
 
-const URL = 'http://localhost:8080/'
 const URL_Create = 'http://localhost:8080/permit/create'
 const URL_Search = 'http://localhost:8080/permit/search'
 const URL_Update = 'http://localhost:8080/permit/update'

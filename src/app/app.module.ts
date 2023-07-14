@@ -17,6 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { PTWService } from './Service/PTW.service';
 import { AccountService } from './Service/Account.service';
+import { ChartService } from './Service/Chart.service';
+import { ChartComponent } from './Chart/chart.component';
 
 
 
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     CreateComponent,
     ApprovalComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,7 @@ const appRoutes: Routes = [
     MaterialModule
 
   ],
-  providers: [PTWService, AccountService],
+  providers: [PTWService, AccountService, ChartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

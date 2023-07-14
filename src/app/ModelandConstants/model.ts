@@ -63,3 +63,17 @@ export interface User_Registeration{
     email: string
     password: string
 }
+/* model for chart */
+
+
+export interface Chart_Data {
+    type: string;
+    data: {
+      labels: number[];
+      datasets: {
+        label: string;
+        data: number[];
+      }[];
+    };
+  }
+  
