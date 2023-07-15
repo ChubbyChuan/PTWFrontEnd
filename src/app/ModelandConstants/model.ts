@@ -1,4 +1,4 @@
-export interface Company{
+export interface Company {
     value: string;
     viewValue: string;
 }
@@ -19,7 +19,7 @@ export interface PRECAUTION {
 }
 
 /* Model for Request + User*/
-export interface Request{
+export interface Request {
     type: string
     name: string
     company: string
@@ -30,7 +30,7 @@ export interface Request{
     comment: string
 }
 
-export interface Permit{
+export interface Permit {
     id: number
     type: string
     name: string
@@ -43,7 +43,7 @@ export interface Permit{
     status: string
 }
 
-export interface SearchQuery{
+export interface SearchQuery {
     // name: string
     type: string
     locations: string
@@ -52,13 +52,13 @@ export interface SearchQuery{
     // limit: number
 }
 
-export interface User{
+export interface User {
     email: string
     password: string
 }
 
 
-export interface User_Registeration{
+export interface User_Registeration {
     name: string
     email: string
     password: string
@@ -66,14 +66,43 @@ export interface User_Registeration{
 /* model for chart */
 
 
-export interface Chart_Data {
+// export interface Chart_Data {
+//     type: String
+//     data: {
+//         labels: String[]
+//         datasets: [{
+//             data: number[]
+//         }]
+//     }
+// }
+
+export interface Chart_Data_Donut {
     type: string;
     data: {
-      labels: number[];
-      datasets: {
-        label: string;
-        data: number[];
-      }[];
-    };
-  }
-  
+        labels: string[],
+        datasets: {
+            data: number[],
+        }
+    }
+    options: {
+        plugins: {
+            datalabels: {
+                backgroundColor: string,
+                borderRadius: number,
+                font: {
+                    color: string,
+                    weight: string,
+                },
+            },
+            doughnutlabel: {
+                labels: {
+                    text: string,
+                    font: {
+                        size: number,
+                        weight: string,
+                    }
+                }
+            }
+        }
+    }
+}

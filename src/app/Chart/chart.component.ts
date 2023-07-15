@@ -15,12 +15,14 @@ export class ChartComponent implements OnInit {
   chartSvc = inject(ChartService)
 
 
+
   //Chart formGroup for search
   ChartForm!: FormGroup
   locationControl = new FormControl<String>('')
   typeArray!: FormArray
 
-  URL:string = "https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015, 2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}"
+
+  URL: string = ''
 
   fb: FormBuilder = inject(FormBuilder)
 
@@ -30,7 +32,7 @@ export class ChartComponent implements OnInit {
       (response: any) => {
         // Handle the response here
         console.log('Response from chart:', response);
-
+        this.URL = this.chartSvc.generateURL(response)
       },
       (error: any) => {
         // Handle the error here
@@ -43,16 +45,15 @@ export class ChartComponent implements OnInit {
     this.chartSvc.getInfoLocation(this.locationControl.value).subscribe(
       (response: any) => {
         // Handle the response here
-        console.log('Response from chart:', response);
-
+        console.log('Response from get chart:', response);
+        this.URL = this.chartSvc.generateURL(response)
       },
       (error: any) => {
         // Handle the error here
-        console.error('Error occurred during chart:', error);
+        console.error('Error occurred get chart:', error);
       }
     );
   }
-
 
 
 }
