@@ -1,27 +1,18 @@
-<form [formGroup]="ChartForm">
+
+<form>
     <div>
-        <label for="type">Type:</label>
-        <select id="type" formControlName="type">
-            <option value="bar">Bar</option>
-            <option value="donut">donut</option>
-            <option value="pie">Pie</option>
-        </select>
-    </div>
-    <div formArrayName="locations">
         <label>Locations:</label>
         <input type="text" [formControl]="locationControl">
-        <div *ngFor="let location of locationArray.controls; let i=index" [formGroupName]="i">
-          <button type="button" (click)="removeLocation(i)">Remove</button>
-        </div>
-        <button type="button" (click)="addLocation()">Add Location</button>
-      </div>
-    <div>
+    </div>
+    <!-- <div>
         <label for="status">Status:</label>
         <select id="status" formControlName="status">
             <option value="pending">pending</option>
             <option value="approved">approved</option>
             <option value="closed">closed</option>
         </select>
-    </div>
-    <button type="submit">Submit</button>
+    </div> -->
+    <button type="button" (click)="getChart()">Submit</button>
 </form>
+
+<img [src]="URL" alt="Chart">

@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ChartService } from '../Service/Chart.service';
 
 @Component({
   selector: 'app-chart',
@@ -11,36 +12,47 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 export class ChartComponent implements OnInit {
 
-//Chart formGroup for search
-ChartForm!: FormGroup
-locationControl = new FormControl<String>('')
-locationArray!: FormArray
-typeArray!: FormArray
+  chartSvc = inject(ChartService)
 
 
-fb: FormBuilder = inject(FormBuilder)
+  //Chart formGroup for search
+  ChartForm!: FormGroup
+  locationControl = new FormControl<String>('')
+  typeArray!: FormArray
+
+  URL:string = "https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015, 2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}"
+
+  fb: FormBuilder = inject(FormBuilder)
 
 
-ngOnInit(): void {
-  this.ChartForm = this.createChartForm()
-}
+  ngOnInit(): void {
+    this.chartSvc.getInfoType("all").subscribe(
+      (response: any) => {
+        // Handle the response here
+        console.log('Response from chart:', response);
 
-addLocation() {
-  this.locationArray.push(this.locationControl);
-  this.locationControl.reset
-}
+      },
+      (error: any) => {
+        // Handle the error here
+        console.error('Error occurred during chart:', error);
+      }
+    )
+  }
 
-removeLocation(index: number) {
-  this.locationArray.removeAt(index);
-}
+  getChart() {
+    this.chartSvc.getInfoLocation(this.locationControl.value).subscribe(
+      (response: any) => {
+        // Handle the response here
+        console.log('Response from chart:', response);
+
+      },
+      (error: any) => {
+        // Handle the error here
+        console.error('Error occurred during chart:', error);
+      }
+    );
+  }
 
 
-private createChartForm(): FormGroup {
-  return this.fb.group({
-    type: this.typeArray,
-    locations: this.locationArray,
-    status: new FormControl<String>('')
-  })
-}
 
 }
