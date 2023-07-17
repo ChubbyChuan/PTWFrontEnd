@@ -1,6 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ChartService } from '../Service/Chart.service';
+import { Router } from '@angular/router';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import { COLD_ICON, CONFINED_ICON, HOT_ICON, ONGOING_ICON, PENDING_ICON } from '../ModelandConstants/iconConstant';
+
+//SVG link
+const hot = HOT_ICON
+const cold = COLD_ICON
+const confined = CONFINED_ICON
+const pending = PENDING_ICON
+const ongoing = ONGOING_ICON
+
 
 @Component({
   selector: 'app-chart',
@@ -8,12 +20,10 @@ import { ChartService } from '../Service/Chart.service';
   styleUrls: ['./chart.component.css']
 })
 
-
-
 export class ChartComponent implements OnInit {
 
   chartSvc = inject(ChartService)
-
+  router = inject(Router)
 
 
   //Chart formGroup for search
@@ -25,6 +35,8 @@ export class ChartComponent implements OnInit {
   URL: string = ''
 
   fb: FormBuilder = inject(FormBuilder)
+  iconRegistry: MatIconRegistry = inject(MatIconRegistry)
+  sanitizer: DomSanitizer = inject(DomSanitizer)
 
 
   ngOnInit(): void {
@@ -39,21 +51,32 @@ export class ChartComponent implements OnInit {
         console.error('Error occurred during chart:', error);
       }
     )
+
+
+   //linking the svg file to the respective tag in html
+   this.iconRegistry.addSvgIconLiteral('hot', this.sanitizer.bypassSecurityTrustHtml(hot))
+   this.iconRegistry.addSvgIconLiteral('cold', this.sanitizer.bypassSecurityTrustHtml(cold))
+   this.iconRegistry.addSvgIconLiteral('confined', this.sanitizer.bypassSecurityTrustHtml(confined))
+   this.iconRegistry.addSvgIconLiteral('pending', this.sanitizer.bypassSecurityTrustHtml(pending))
+   this.iconRegistry.addSvgIconLiteral('ongoing', this.sanitizer.bypassSecurityTrustHtml(ongoing))
   }
 
-  getChart() {
-    this.chartSvc.getInfoLocation(this.locationControl.value).subscribe(
-      (response: any) => {
-        // Handle the response here
-        console.log('Response from get chart:', response);
-        this.URL = this.chartSvc.generateURL(response)
-      },
-      (error: any) => {
-        // Handle the error here
-        console.error('Error occurred get chart:', error);
-      }
-    );
-  }
+  // getChart() {
+  //   this.chartSvc.getInfoLocation(this.locationControl.value).subscribe(
+  //     (response: any) => {
+  //       // Handle the response here
+  //       console.log('Response from get chart:', response);
+  //       this.URL = this.chartSvc.generateURL(response)
+  //     },
+  //     (error: any) => {
+  //       // Handle the error here
+  //       console.error('Error occurred get chart:', error);
+  //     }
+  //   )
+  // }
 
+  gotoEdit() {
+    this.router.navigate(['/create']);
+  }
 
 }

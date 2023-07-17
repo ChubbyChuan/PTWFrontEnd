@@ -1,10 +1,68 @@
-<img [src]="URL" alt="Chart"  class="resized-image">
+<Table>
+    <thead>
+        <div>
+            <td>
+                <mat-card class="SystemCard">
+                    <mat-card-header>
+                        <mat-card-subtitle>New Permits</mat-card-subtitle>
+                        <mat-card-title>234 Permits</mat-card-title>
+                    </mat-card-header>
+                    <!-- <mat-card-content></mat-card-content> -->
+                </mat-card>
+            </td>
+            <td>
+                <mat-card class="SystemCard">
+                    <mat-card-header>
+                        <mat-card-subtitle>New Permits</mat-card-subtitle>
+                        <mat-card-title>234 Permits</mat-card-title>
+                    </mat-card-header>
+                    <!-- <mat-card-content></mat-card-content> -->
+                </mat-card>
+            </td>
+            <td>
+                <mat-card class="SystemCard">
+                    <mat-card-header>
+                        <mat-card-subtitle>New Permits</mat-card-subtitle>
+                        <mat-card-title>234 Permits</mat-card-title>
+                    </mat-card-header>
+                    <!-- <mat-card-content></mat-card-content> -->
+                </mat-card>
+            </td>
+            <td>
+                <mat-card class="SystemCard">
+                    <mat-card-header>
+                        <mat-card-subtitle>New Permits
+                            <mat-divider></mat-divider>
+                        </mat-card-subtitle>
+                        <mat-card-title>234 Permits</mat-card-title>
+                    </mat-card-header>
+                    <!-- <mat-card-content></mat-card-content> -->
+                </mat-card>
+            </td>
+        </div>
+    </thead>
+    <tbody>
+        <div>
+            <mat-card class="resized-image">
+                <mat-card-header>
+                    <mat-card-subtitle>Current Permit onging </mat-card-subtitle>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <tr>
+                    <img [src]="URL" alt="Chart">
+                </tr>
+            </mat-card>
+
+        </div>
+    </tbody>
+</Table>
+
 
 <form>
-    <div>
+    <!-- <div>
         <label>Locations:</label>
         <input type="text" [formControl]="locationControl">
-    </div>
+    </div> -->
     <!-- <div>
         <label for="status">Status:</label>
         <select id="status" formControlName="status">
@@ -13,5 +71,5 @@
             <option value="closed">closed</option>
         </select>
     </div> -->
-    <button type="button" (click)="getChart()">Submit</button>
+    <!-- <button type="button" (click)="getChart()">Submit</button> -->
 </form>

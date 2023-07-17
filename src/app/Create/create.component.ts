@@ -11,6 +11,7 @@ import { HttpClient } from "@angular/common/http";
 import { PTWService } from '../Service/PTW.service';
 import { Permit, SearchQuery } from '../ModelandConstants/model';
 import { MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute } from '@angular/router';
 
 //SVG link
 const hot = HOT_ICON
@@ -60,7 +61,7 @@ export class CreateComponent implements OnInit {
   //   iconRegistry.addSvgIconLiteral('confined', sanitizer.bypassSecurityTrustHtml(confined))
   // }
   ptwSvc = inject(PTWService)
-
+  constructor(private route: ActivatedRoute) { }
 
   //form
   Form!: FormGroup
@@ -75,6 +76,7 @@ export class CreateComponent implements OnInit {
   permitNumber!: number
 
   ngOnInit(): void {
+
     /*----------------Create------------------------*/
 
     //linking the svg file to the respective tag in html
@@ -132,7 +134,7 @@ export class CreateComponent implements OnInit {
       );
     }
   }
-  
+
 
   cancelCreateEdit() {
     this.searchState = ''
@@ -146,7 +148,7 @@ export class CreateComponent implements OnInit {
   submitRequest() {
     const request: Request = this.Form.value;
     console.info('>> create/edit Entry: ', request);
-  
+
     if (this.searchState === 'create') {
       console.info('>> create Entry: ', request)
       this.ptwSvc.createPTW(request).subscribe(
@@ -163,7 +165,7 @@ export class CreateComponent implements OnInit {
       console.info('>> edit Entry: ', request)
       this.ptwSvc.updatePTW(this.idControl.value, request).subscribe(
         (response: any) => {
-          
+
           console.log('Response from server:', response);
           // this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
         },
@@ -173,11 +175,11 @@ export class CreateComponent implements OnInit {
         }
       );
     }
-  
+
     this.Form.reset()
     this.searchState = ""
   }
-  
+
 
   /*----------------------------------------------*/
   /*---Search for pending. approved and pending---*/

@@ -80,9 +80,9 @@ export interface Chart_Data_Donut {
     type: string;
     data: {
         labels: string[],
-        datasets: {
+        datasets: [{
             data: number[],
-        }
+        }]
     }
     options: {
         plugins: {
@@ -90,6 +90,7 @@ export interface Chart_Data_Donut {
                 backgroundColor: string,
                 borderRadius: number,
                 font: {
+                    size: number,
                     color: string,
                     weight: string,
                 },

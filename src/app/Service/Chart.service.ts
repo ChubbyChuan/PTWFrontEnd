@@ -4,7 +4,8 @@ import { Observable } from "rxjs"
 import { Chart_Data_Donut } from "../ModelandConstants/model";
 
 
-const API_CHART_URL = 'https://quickchart.io/chart'
+const API_CHART_URL = "https://quickchart.io/chart?c="
+const API_CHART_SIZE_URL = "https://quickchart.io/chart?width=300&height=300&c="
 
 const URL_Chart_Type = 'http://localhost:8080/info/graphtype'
 const URL_Chart_Location = 'http://localhost:8080/info/graphlocation'
@@ -18,10 +19,10 @@ export class ChartService {
     chartData: Chart_Data_Donut = {
         type: "donut",
         data: {
-            labels: [],
-            datasets: {
+            labels: [""],
+            datasets: [{
                 data: [],
-            }
+            }]
         },
         options: {
             plugins: {
@@ -29,6 +30,7 @@ export class ChartService {
                     backgroundColor: '#ccc',
                     borderRadius: 3,
                     font: {
+                        size: 15,
                         color: 'black',
                         weight: 'bold',
                     },
@@ -38,7 +40,7 @@ export class ChartService {
                     {
                         text: 'null',
                         font: {
-                            size: 20,
+                            size: 30,
                             weight: 'bold',
                         },
                     },
@@ -52,7 +54,7 @@ export class ChartService {
         this.chartData.data.labels = response.type;
         this.chartData.data.datasets[0].data = response.data;
         const jsonString: string = JSON.stringify(this.chartData);
-        const url: string = "https://quickchart.io/chart?c=" + encodeURIComponent(jsonString)
+        const url: string = API_CHART_SIZE_URL + encodeURIComponent(jsonString)
         return url
     }
 
