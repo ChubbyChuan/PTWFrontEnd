@@ -36,10 +36,11 @@ export class LoginComponent implements OnInit {
     this.actSvc.verifyUser(user).subscribe(
       (response: any) => {
         console.log('Response from server: ', response);
-
-        this.isUserValid = true;
+        if (response.user) {
+          this.actSvc.updateUserValidity(true); // Update user validity
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        }
         this.router.navigate(['/create']);
-
       },
       (error: any) => {
         alert('Invalid credentials');

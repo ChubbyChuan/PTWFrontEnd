@@ -19,6 +19,7 @@ import { PTWService } from './Service/PTW.service';
 import { AccountService } from './Service/Account.service';
 import { ChartService } from './Service/Chart.service';
 import { ChartComponent } from './Chart/chart.component';
+import { AuthGuard } from './Service/auth.guard';
 
 
 
@@ -26,9 +27,9 @@ import { ChartComponent } from './Chart/chart.component';
 const appRoutes: Routes = [
   { path: '', component: MainComponent, title: 'Main' },
   { path: 'login', component: LoginComponent, title: 'login' },
-  { path: 'register', component: RegisterComponent, title: 'Register' },
-  { path: 'create', component: CreateComponent, title: 'create' },
-  { path: 'approval', component: ApprovalComponent, title: 'approval' },
+  { path: 'register', component: RegisterComponent, title: 'Register'  },
+  { path: 'create', component: CreateComponent, title: 'create', canActivate: [AuthGuard] },
+  { path: 'approval', component: ApprovalComponent, title: 'approval',canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/', pathMatch: 'full'}
 ]
 
@@ -51,7 +52,7 @@ const appRoutes: Routes = [
     MaterialModule
 
   ],
-  providers: [PTWService, AccountService, ChartService],
+  providers: [PTWService, AccountService, ChartService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
