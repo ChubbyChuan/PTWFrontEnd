@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '../ModelandConstants/model';
+import { User, User_Registeration } from '../ModelandConstants/model';
 import { AccountService } from '../Service/Account.service';
 
 
@@ -34,13 +34,13 @@ export class LoginComponent implements OnInit {
     console.info('>> Login info: ', user);
 
     this.actSvc.verifyUser(user).subscribe(
-      (response: any) => {
+      (response: User_Registeration) => {
         console.log('Response from server: ', response);
-        if (response.user) {
+        if (response) {
           this.actSvc.updateUserValidity(true); // Update user validity
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('currentUser', JSON.stringify(response));
+          this.router.navigate(['/create']);
         }
-        this.router.navigate(['/create']);
       },
       (error: any) => {
         alert('Invalid credentials');

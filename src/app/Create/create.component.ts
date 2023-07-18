@@ -9,7 +9,7 @@ import { map, startWith } from 'rxjs/operators';
 import { DatePipe, formatDate } from '@angular/common';
 import { HttpClient } from "@angular/common/http";
 import { PTWService } from '../Service/PTW.service';
-import { Permit, SearchQuery } from '../ModelandConstants/model';
+import { Permit, SearchQuery, User_Registeration } from '../ModelandConstants/model';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 
@@ -74,6 +74,7 @@ export class CreateComponent implements OnInit {
   approvedpermits$!: Observable<Permit[]>
   searchState: string = ''
   permitNumber!: number
+  user!: User_Registeration
 
   ngOnInit(): void {
 
@@ -103,6 +104,12 @@ export class CreateComponent implements OnInit {
     this.approvedGroup = this.createFormSearch()
     this.approvedpermits$ = this.ptwSvc.searchPTW(this.pendingGroup.value)
 
+    /*---------------------user details--------------------------*/
+    
+    const currentUser = localStorage.getItem('currentUser')
+    if (currentUser) {
+      this.user = JSON.parse(currentUser)
+    }
   }
 
   invalidForm() {
@@ -275,8 +282,8 @@ export class CreateComponent implements OnInit {
 
     return this.fb.group({
       type: this.typeControl,
-      name: this.fb.control<string>('Wee Chuan', [Validators.required, Validators.minLength(3)]), //TODO - Change the variable once you finalise the login
-      equipment: this.fb.control<string>('V-52', [Validators.required, Validators.minLength(3)]),
+      name: this.fb.control<string>('', [Validators.required, Validators.minLength(3)]), //TODO - Change the variable once you finalise the login
+      equipment: this.fb.control<string>('', [Validators.required, Validators.minLength(3)]),
       company: this.companyControl,
       startdate: [defaultDate], //solve the reverse dates!
       enddate: [defaultDate],
@@ -292,7 +299,7 @@ export class CreateComponent implements OnInit {
       status: this.statusSearchControl
     })
   }
-
+//TODO: remove all company
   populateForm(data: Permit) {
     this.Form.patchValue({
       type: data.type,

@@ -9,3 +9,13 @@
 .size {
     min-width: 1000px;
 }
+
+.spacer {
+    flex: 1;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+  }

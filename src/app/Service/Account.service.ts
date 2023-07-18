@@ -23,9 +23,5 @@ export class AccountService {
     updateUserValidity(isValid: boolean): void {
         this.isUserValid = isValid;
       }
-    
-
-
-
 
 }
