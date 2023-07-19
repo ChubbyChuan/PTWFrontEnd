@@ -18,6 +18,12 @@
                     <input matInput type="password" formControlName="password" />
                 </mat-form-field>
             </div>
+            <div class="mb-3">
+                <mat-form-field appearance="fill">
+                    <mat-label>Company</mat-label>
+                    <input matInput type="company" formControlName="company" />
+                </mat-form-field>
+            </div>
             <div>
                 <button mat-raised-button color="primary" type="submit" [disabled]="invalidForm()">
                     Register
