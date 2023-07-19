@@ -28,6 +28,7 @@ export interface Request {
     enddate: Date
     locations: string
     comment: string
+    email: string
 }
 
 export interface Permit {
@@ -62,6 +63,7 @@ export interface User_Registeration {
     name: string
     email: string
     password: string
+    company: string
 }
 /* model for chart */
 

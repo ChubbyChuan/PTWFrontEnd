@@ -39,7 +39,7 @@ export class CreateComponent implements OnInit {
 
   //FormControl for autocomplete
   typeControl = new FormControl('', [Validators.required, Validators.minLength(1)])
-  companyControl = new FormControl('GSK', [Validators.required, Validators.minLength(1)])
+  companyControl = new FormControl('')
   locationControl = new FormControl('Production', [Validators.required, Validators.minLength(1)])
 
 
@@ -55,11 +55,7 @@ export class CreateComponent implements OnInit {
   fb: FormBuilder = inject(FormBuilder)
   iconRegistry: MatIconRegistry = inject(MatIconRegistry)
   sanitizer: DomSanitizer = inject(DomSanitizer)
-  // constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-  //   iconRegistry.addSvgIconLiteral('hot', sanitizer.bypassSecurityTrustHtml(hot))
-  //   iconRegistry.addSvgIconLiteral('cold', sanitizer.bypassSecurityTrustHtml(cold))
-  //   iconRegistry.addSvgIconLiteral('confined', sanitizer.bypassSecurityTrustHtml(confined))
-  // }
+ 
   ptwSvc = inject(PTWService)
   constructor(private route: ActivatedRoute) { }
 
@@ -153,6 +149,9 @@ export class CreateComponent implements OnInit {
   /*----------------Create -----------------------*/
   /*----------------------------------------------*/
   submitRequest() {
+    this.Form.get('name')?.setValue(this.user.name)
+    this.Form.get('company')?.setValue(this.user.company)
+    this.Form.get('email')?.setValue(this.user.email)
     const request: Request = this.Form.value;
     console.info('>> create/edit Entry: ', request);
 
@@ -282,13 +281,14 @@ export class CreateComponent implements OnInit {
 
     return this.fb.group({
       type: this.typeControl,
-      name: this.fb.control<string>('', [Validators.required, Validators.minLength(3)]), //TODO - Change the variable once you finalise the login
+      name: this.fb.control<string>(''),
       equipment: this.fb.control<string>('', [Validators.required, Validators.minLength(3)]),
       company: this.companyControl,
       startdate: [defaultDate], //solve the reverse dates!
       enddate: [defaultDate],
       location: this.locationControl,
-      comment: this.fb.control<string>('Testing Comments')
+      comment: this.fb.control<string>('',[Validators.required, Validators.minLength(1)]),
+      email: this.fb.control<string>('')
     })
   }
 
