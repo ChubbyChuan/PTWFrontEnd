@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs"
-import { Chart_Data_Donut } from "../ModelandConstants/model";
+import { Chart_Data_Donut } from "../_ModelandConstants/model";
 
 
 const API_CHART_URL = "https://quickchart.io/chart?c="

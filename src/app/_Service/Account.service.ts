@@ -1,12 +1,15 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { User, User_Registeration } from "../ModelandConstants/model";
+import { User, User_Registeration } from "../_ModelandConstants/model";
 import { Observable } from "rxjs";
 
 const User_Register = 'http://localhost:8080/user/register'
 const User_Verify = 'http://localhost:8080/user/verify'
 
-
+const httpOptions = { 
+    headers: new HttpHeaders({ 'Content-type': 'application/json'})
+}
+//TODO: to put json header for all services anc check
 @Injectable()
 export class AccountService {
     isUserValid: boolean = false;
@@ -23,5 +26,9 @@ export class AccountService {
     updateUserValidity(isValid: boolean): void {
         this.isUserValid = isValid;
       }
+
+    logout(): Observable<any>{
+        return this.http.post<any>(User_Verify + 'signout', {}, httpOptions)
+    }
 
 }

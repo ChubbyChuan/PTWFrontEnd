@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry, MatIconModule } from '@angular/material/icon';
-import { COLD_ICON, CONFINED_ICON, HOT_ICON } from '../ModelandConstants/iconConstant';
+import { COLD_ICON, CONFINED_ICON, HOT_ICON } from '../_ModelandConstants/iconConstant';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { COMPANIES, LOCATIONS, OPTIONS } from '../ModelandConstants/constant';
+import { COMPANIES, LOCATIONS, OPTIONS } from '../_ModelandConstants/constant';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, startWith } from 'rxjs/operators';
 import { DatePipe, formatDate } from '@angular/common';
 import { HttpClient } from "@angular/common/http";
-import { PTWService } from '../Service/PTW.service';
-import { Permit, SearchQuery, User_Registeration } from '../ModelandConstants/model';
+import { PTWService } from '../_Service/PTW.service';
+import { Permit, SearchQuery, User_Registeration } from '../_ModelandConstants/model';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 

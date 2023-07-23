@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
-import { Permit, SearchQuery } from "../ModelandConstants/model";
+import { Permit, SearchQuery } from "../_ModelandConstants/model";
 
 const URL_Create = 'http://localhost:8080/permit/create'
 const URL_Search = 'http://localhost:8080/permit/search'

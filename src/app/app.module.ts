@@ -15,11 +15,12 @@ import { ApprovalComponent } from './Approval/approval.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
-import { PTWService } from './Service/PTW.service';
-import { AccountService } from './Service/Account.service';
-import { ChartService } from './Service/Chart.service';
+import { PTWService } from './_Service/PTW.service';
+import { AccountService } from './_Service/Account.service';
+import { ChartService } from './_Service/Chart.service';
 import { ChartComponent } from './Chart/chart.component';
-import { AuthGuard } from './Service/auth.guard';
+import { AuthGuard } from './_Service/auth.guard';
+import { httpInterceptorProviders } from './_helpers/http.interceptor';
 
 
 
@@ -52,7 +53,7 @@ const appRoutes: Routes = [
     MaterialModule
 
   ],
-  providers: [PTWService, AccountService, ChartService, AuthGuard],
+  providers: [PTWService, AccountService, ChartService, AuthGuard, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

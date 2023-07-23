@@ -3,12 +3,12 @@ import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms'
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, startWith, map } from 'rxjs';
-import { HOT_ICON, COLD_ICON, CONFINED_ICON } from '../ModelandConstants/iconConstant';
-import { PPE, PRECAUTION, Permit, SearchQuery } from '../ModelandConstants/model';
-import { PTWService } from '../Service/PTW.service';
+import { HOT_ICON, COLD_ICON, CONFINED_ICON } from '../_ModelandConstants/iconConstant';
+import { PPE, PRECAUTION, Permit, SearchQuery } from '../_ModelandConstants/model';
+import { PTWService } from '../_Service/PTW.service';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { Work_Area } from '../ModelandConstants/model';
-import { PPE_LIST, PRECAUTION_LIST, WORK_AREA_LIST } from '../ModelandConstants/constant';
+import { Work_Area } from '../_ModelandConstants/model';
+import { PPE_LIST, PRECAUTION_LIST, WORK_AREA_LIST } from '../_ModelandConstants/constant';
 
 
 //SVG link

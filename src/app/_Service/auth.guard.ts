@@ -1,7 +1,7 @@
 import { Inject, Injectable, inject } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
 import { AccountService } from "./Account.service";
-import { User } from "../ModelandConstants/model";
+import { User } from "../_ModelandConstants/model";
 
 import { Observable } from "rxjs/internal/Observable";
 import { map } from "rxjs";

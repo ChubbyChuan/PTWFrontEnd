@@ -1,10 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ChartService } from '../Service/Chart.service';
+import { ChartService } from '../_Service/Chart.service';
 import { Router } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { COLD_ICON, CONFINED_ICON, HOT_ICON, ONGOING_ICON, PENDING_ICON } from '../ModelandConstants/iconConstant';
+import { COLD_ICON, CONFINED_ICON, HOT_ICON, ONGOING_ICON, PENDING_ICON } from '../_ModelandConstants/iconConstant';
 
 //SVG link
 const hot = HOT_ICON
