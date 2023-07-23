@@ -33,7 +33,6 @@ export const WORK_AREA_LIST: Work_Area []= [
   { name: 'gasFume', label: 'GAS FUME' },
   { name: 'dustPowder', label: 'DUST & POWDER' },
   { name: 'flammableLiquid', label: 'FLAMMABLE LIQUID' },
-  { name: 'corrosiveToxicMaterials', label: 'CORROSIVE TOXIC MATERIALS' },
   { name: 'asbestos', label: 'ASBESTOS' },
   { name: 'fallingObject', label: 'FALLING OBJECT' },
   { name: 'vented', label: 'VENTED' },
@@ -47,20 +46,6 @@ export const PPE_LIST: PPE []= [
   { name: 'safetyWorkwear', label: 'SAFETY WORKWEAR' },
   { name: 'handgloves', label: 'HANDGLOVES' },
   { name: 'n95', label: 'N95' },
-  { name: 'halfFaceRespirator', label: 'HALF FACE RESPIRATOR' },
-  { name: 'fullFaceRespirator', label: 'FULLFACE RESPIRATOR' },
-  { name: 'scba', label: 'SCBA' },
-  { name: 'airsuitAirhood', label: 'AIRSUIT/AIRHOOD' },
-  { name: 'fullbodyHarness', label: 'FULLBODY HARNESS' },
-  { name: 'heatResistanceProtection', label: 'HEAT RESISTANCE PROTECTION' },
-  { name: 'chemicalApron', label: 'CHEMICAL APRON' },
-  { name: 'chemicalSuit', label: 'CHEMICAL SUIT' },
-  { name: 'chemicalGoggles', label: 'CHEMICAL GOGGLES' },
-  { name: 'chemicalFaceShield', label: 'CHEMICAL FACE SHIELD' },
-  { name: 'chemicalGloves', label: 'CHEMICAL GLOVES' },
-  { name: 'thermalGloves', label: 'THERMAL GLOVES' },
-  { name: 'cryoGloves', label: 'CRYO GLOVES' },
-  { name: 'hotWork', label: 'HOT WORK' }
 ]
 
 export const PRECAUTION_LIST: PRECAUTION []= [

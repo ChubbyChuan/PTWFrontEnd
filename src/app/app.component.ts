@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
       case '/create':
         return 'Permit';
       case '/approval':
-        return 'Approval';
+        return 'DashBoard';
       // Add more cases for other routes if needed
       default:
         return '';

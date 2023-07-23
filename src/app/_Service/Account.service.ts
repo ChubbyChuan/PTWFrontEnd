@@ -10,6 +10,7 @@ const httpOptions = {
     headers: new HttpHeaders({ 'Content-type': 'application/json'})
 }
 //TODO: to put json header for all services anc check
+// Authservice in reference
 @Injectable()
 export class AccountService {
     isUserValid: boolean = false;
@@ -27,8 +28,5 @@ export class AccountService {
         this.isUserValid = isValid;
       }
 
-    logout(): Observable<any>{
-        return this.http.post<any>(User_Verify + 'signout', {}, httpOptions)
-    }
 
 }

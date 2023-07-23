@@ -19,10 +19,16 @@ export class LoginComponent implements OnInit {
   actSvc: AccountService = inject(AccountService)
 
   isUserValid: Boolean = false
-
+  user!: User_Registeration
 
   ngOnInit(): void {
     this.loginForm = this.createLoginForm()
+    const currentUser = localStorage.getItem('currentUser')
+    if (currentUser) {
+      this.user = JSON.parse(currentUser)
+      this.router.navigate(['/approval']);
+    }
+
   }
 
   get formControls() {
@@ -38,13 +44,15 @@ export class LoginComponent implements OnInit {
         console.log('Response from server: ', response);
         if (response) {
           this.actSvc.updateUserValidity(true); // Update user validity
+
           localStorage.setItem('currentUser', JSON.stringify(response));
-          this.router.navigate(['/create']);
+          this.router.navigate(['/approval']);
         }
       },
       (error: any) => {
         alert('Invalid credentials');
         console.error('Error occurred:', error);
+
       }
     );
   }

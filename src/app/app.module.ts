@@ -20,7 +20,7 @@ import { AccountService } from './_Service/Account.service';
 import { ChartService } from './_Service/Chart.service';
 import { ChartComponent } from './Chart/chart.component';
 import { AuthGuard } from './_Service/auth.guard';
-import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { ApprovalService } from './_Service/Approval.service';
 
 
 
@@ -53,7 +53,7 @@ const appRoutes: Routes = [
     MaterialModule
 
   ],
-  providers: [PTWService, AccountService, ChartService, AuthGuard, httpInterceptorProviders],
+  providers: [PTWService, AccountService, ChartService, AuthGuard, ApprovalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

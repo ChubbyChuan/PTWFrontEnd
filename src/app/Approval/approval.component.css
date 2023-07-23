@@ -21,7 +21,7 @@
   }
   
   .PTWcard {
-    width: 360px;
+    min-width: 360px;
     height: auto;
     border: 1px solid rgb(224, 224, 224);
   }
@@ -35,7 +35,7 @@
   .PTWCardheader_div {
     width: 61px;
   }
-  
-  .Isolation-form-field {
-    width: 220px;
-  }
+
+
+
+
