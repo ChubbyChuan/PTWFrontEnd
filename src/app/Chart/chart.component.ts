@@ -32,7 +32,8 @@ export class ChartComponent implements OnInit {
   typeArray!: FormArray
 
 
-  URL: string = ''
+  DonutURL: string = ''
+  ChartURL: string = ''
 
   fb: FormBuilder = inject(FormBuilder)
   iconRegistry: MatIconRegistry = inject(MatIconRegistry)
@@ -44,13 +45,23 @@ export class ChartComponent implements OnInit {
       (response: any) => {
         // Handle the response here
         console.log('Response from chart:', response);
-        this.URL = this.chartSvc.generateURL(response)
+        this.DonutURL = this.chartSvc.generateURL(response)
       },
       (error: any) => {
         // Handle the error here
         console.error('Error occurred during chart:', error);
-      }
-    )
+      }),
+
+      this.chartSvc.getInfoLocation("all").subscribe(
+        (response: any) => {
+          // Handle the response here
+          console.log('Response from chart:', response);
+          this.ChartURL = this.chartSvc.generateChartURL(response)
+        },
+        (error: any) => {
+          // Handle the error here
+          console.error('Error occurred during chart:', error);
+        }),
 
 
    //linking the svg file to the respective tag in html

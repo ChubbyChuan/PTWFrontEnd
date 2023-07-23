@@ -237,6 +237,16 @@ export class CreateComponent implements OnInit {
 
   closeEntry(id: number) {
     console.info('>> close Entry id: ', id)
+    this.ptwSvc.closePTW(id).subscribe(
+      (response: any) => {
+        console.log('Response from server:', response);
+        // this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
+      },
+      (error: any) => {
+        console.error('Error occurred:', error);
+        // this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '');
+      }
+    );
   }
 
   approvedSearch() {

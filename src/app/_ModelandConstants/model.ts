@@ -120,3 +120,12 @@ export interface Chart_Data_Donut {
         }
     }
 }
+export interface Chart_Data {
+    type: string;
+    data: {
+        labels: string[],
+        datasets: [{
+            label: String,
+            data: number[],
+        }]
+    }}

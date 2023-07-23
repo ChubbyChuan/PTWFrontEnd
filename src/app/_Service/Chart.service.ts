@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs"
-import { Chart_Data_Donut } from "../_ModelandConstants/model";
+import { Chart_Data, Chart_Data_Donut } from "../_ModelandConstants/model";
 
 
 const API_CHART_URL = "https://quickchart.io/chart?c="
@@ -49,11 +49,31 @@ export class ChartService {
         },
     };
 
+    locationchartData: Chart_Data = {
+        type: "bar",
+        data: {
+            labels: [""],
+            datasets: [{
+                label: "location",
+                data: [],
+            }]
+        }
+
+        
+    }
 
     generateURL(response: any) {
         this.chartData.data.labels = response.type;
         this.chartData.data.datasets[0].data = response.data;
         const jsonString: string = JSON.stringify(this.chartData);
+        const url: string = API_CHART_SIZE_URL + encodeURIComponent(jsonString)
+        return url
+    }
+
+    generateChartURL(response: any) {
+        this.locationchartData.data.labels = response.location;
+        this.locationchartData.data.datasets[0].data = response.data;
+        const jsonString: string = JSON.stringify(this.locationchartData);
         const url: string = API_CHART_SIZE_URL + encodeURIComponent(jsonString)
         return url
     }
