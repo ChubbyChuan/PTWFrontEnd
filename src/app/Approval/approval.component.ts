@@ -4,7 +4,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, startWith, map } from 'rxjs';
 import { HOT_ICON, COLD_ICON, CONFINED_ICON } from '../_ModelandConstants/iconConstant';
-import { PPE, PRECAUTION, Permit, SearchQuery, Work_Area } from '../_ModelandConstants/model';
+import { Approval, PPE, PRECAUTION, Permit, SearchQuery, User_Registeration, Work_Area } from '../_ModelandConstants/model';
 import { PTWService } from '../_Service/PTW.service';
 import { PPE_LIST, PRECAUTION_LIST, WORK_AREA_LIST } from '../_ModelandConstants/constant';
 import { ApprovalService } from '../_Service/Approval.service';
@@ -62,6 +62,8 @@ export class ApprovalComponent implements OnInit {
 
   pendingpermits$!: Observable<Permit[]>
   approvedpermits$!: Observable<Permit[]>
+  user!: User_Registeration
+
 
   ngOnInit(): void {
 
@@ -81,9 +83,16 @@ export class ApprovalComponent implements OnInit {
     this.ApprovalformGroup = this.fb.group({
       selectedWorkArea: new FormArray([]),
       selectedPPE: new FormArray([]),
-      selectedPrecaution: new FormArray([])
+      selectedPrecaution: new FormArray([]),
+      name: (''),
+      company: (''),
+      email: ('')
     })
 
+    const currentUser = localStorage.getItem('currentUser')
+    if (currentUser) {
+      this.user = JSON.parse(currentUser)
+    }
   }
   WACheckboxChange(event: any) { 
     const selectedWorkArea = (this.ApprovalformGroup.controls['selectedWorkArea'] as FormArray);
@@ -116,8 +125,22 @@ export class ApprovalComponent implements OnInit {
     }
   }
 
-  sendApproval(id: Number) {
+  sendApproval(id: number) {
+    this.ApprovalformGroup.get('name')?.setValue(this.user.name)
+    this.ApprovalformGroup.get('company')?.setValue(this.user.company)
+    this.ApprovalformGroup.get('email')?.setValue(this.user.email)
     console.log(this.ApprovalformGroup)
+    const approval: Approval = this.ApprovalformGroup.value
+    this.approvalSvc.updateApproval(id, approval).subscribe(
+      (response: any) => {
+        // Handle the response here
+        console.log('Response from cancellation:', response);  
+      },
+      (error: any) => {
+        // Handle the error here
+        console.error('Error occurred during cancellation:', error);
+      }
+    )
   }
 
   invalidForm() {

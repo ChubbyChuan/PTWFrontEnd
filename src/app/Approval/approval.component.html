@@ -56,7 +56,7 @@
     <ng-container *ngIf="selectedPermitId === permit.id">
       <div >
         <form [formGroup]="ApprovalformGroup">
-          <td>
+          <td><p>{{ ApprovalformGroup.value | json }}</p>
             <h3> Equipment, Systems and Work Area Status</h3>
             <div *ngFor="let work_area of work_area_list; let i=index">
               <input type="checkbox" formArrayName="selectedWorkArea" [value]="work_area.name"

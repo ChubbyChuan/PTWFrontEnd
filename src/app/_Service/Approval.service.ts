@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable, from } from "rxjs";
-import { Permit, SearchQuery } from "../_ModelandConstants/model";
+import { Approval, Permit, SearchQuery } from "../_ModelandConstants/model";
 
 
 const URL_Update = 'http://localhost:8080/approval/update'
@@ -13,8 +13,8 @@ export class ApprovalService {
 
     constructor(private http: HttpClient) {}
 
-    updateApproval(id: number): Observable<Permit[]> {
-        return this.http.post<any>(`${URL_Update}/${id}`, id)
+    updateApproval(id: number,a: Approval): Observable<Permit[]> {
+        return this.http.post<any>(`${URL_Update}/${id}`, a)
       }
    
     //Get Request: 'http://localhost:8080/approval/cancel/{{id}}

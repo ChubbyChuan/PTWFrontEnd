@@ -18,6 +18,17 @@ export interface PRECAUTION {
     label: string;
 }
 
+export interface Approval {
+    selectedWorkArea: String[];
+    selectedPPE: String[];
+    selectedPrecaution: String[];
+    name: String;
+    company:String;
+    email: String;
+}
+
+
+
 /* Model for Request + User*/
 export interface Request {
     type: string
