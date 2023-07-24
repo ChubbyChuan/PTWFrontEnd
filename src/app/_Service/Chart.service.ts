@@ -2,13 +2,15 @@ import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs"
 import { Chart_Data, Chart_Data_Donut } from "../_ModelandConstants/model";
+import { URL_link } from "../_ModelandConstants/constant";
 
+const BASE_URL = URL_link; // Replace with your backend server URL
 
 const API_CHART_URL = "https://quickchart.io/chart?c="
 const API_CHART_SIZE_URL = "https://quickchart.io/chart?width=300&height=300&c="
 
-const URL_Chart_Type = 'http://localhost:8080/info/graphtype'
-const URL_Chart_Location = 'http://localhost:8080/info/graphlocation'
+const URL_Chart_Type = `${BASE_URL}/info/graphtype`
+const URL_Chart_Location = `${BASE_URL}/info/graphlocation`
 
 
 @Injectable()

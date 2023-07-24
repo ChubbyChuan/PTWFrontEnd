@@ -8,6 +8,7 @@ import { Approval, PPE, PRECAUTION, Permit, SearchQuery, User_Registeration, Wor
 import { PTWService } from '../_Service/PTW.service';
 import { PPE_LIST, PRECAUTION_LIST, WORK_AREA_LIST } from '../_ModelandConstants/constant';
 import { ApprovalService } from '../_Service/Approval.service';
+import { Router } from '@angular/router';
 
 
 //SVG link
@@ -46,6 +47,7 @@ export class ApprovalComponent implements OnInit {
 
   ptwSvc = inject(PTWService)
   approvalSvc = inject(ApprovalService)
+  router: Router = inject(Router)
 
 
   //form
@@ -92,6 +94,9 @@ export class ApprovalComponent implements OnInit {
     const currentUser = localStorage.getItem('currentUser')
     if (currentUser) {
       this.user = JSON.parse(currentUser)
+    }  else {
+      this.router.navigate(['/login']);
+
     }
   }
   WACheckboxChange(event: any) { 

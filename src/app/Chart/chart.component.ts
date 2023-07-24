@@ -72,20 +72,6 @@ export class ChartComponent implements OnInit {
    this.iconRegistry.addSvgIconLiteral('ongoing', this.sanitizer.bypassSecurityTrustHtml(ongoing))
   }
 
-  // getChart() {
-  //   this.chartSvc.getInfoLocation(this.locationControl.value).subscribe(
-  //     (response: any) => {
-  //       // Handle the response here
-  //       console.log('Response from get chart:', response);
-  //       this.URL = this.chartSvc.generateURL(response)
-  //     },
-  //     (error: any) => {
-  //       // Handle the error here
-  //       console.error('Error occurred get chart:', error);
-  //     }
-  //   )
-  // }
-
   gotoEdit() {
     this.router.navigate(['/create']);
   }

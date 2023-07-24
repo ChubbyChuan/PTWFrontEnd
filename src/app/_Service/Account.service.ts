@@ -2,15 +2,14 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { User, User_Registeration } from "../_ModelandConstants/model";
 import { Observable } from "rxjs";
+import { URL_link } from "../_ModelandConstants/constant";
 
-const User_Register = 'http://localhost:8080/user/register'
-const User_Verify = 'http://localhost:8080/user/verify'
+const BASE_URL = URL_link; // Replace with your backend server URL
 
-const httpOptions = { 
-    headers: new HttpHeaders({ 'Content-type': 'application/json'})
-}
-//TODO: to put json header for all services anc check
-// Authservice in reference
+const User_Register = `${BASE_URL}/user/register`
+const User_Verify = `${BASE_URL}/user/verify`
+
+
 @Injectable()
 export class AccountService {
     isUserValid: boolean = false;

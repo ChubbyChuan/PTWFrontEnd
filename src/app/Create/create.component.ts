@@ -11,7 +11,7 @@ import { HttpClient } from "@angular/common/http";
 import { PTWService } from '../_Service/PTW.service';
 import { Permit, SearchQuery, User_Registeration } from '../_ModelandConstants/model';
 import { MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 //SVG link
 const hot = HOT_ICON
@@ -55,6 +55,7 @@ export class CreateComponent implements OnInit {
   fb: FormBuilder = inject(FormBuilder)
   iconRegistry: MatIconRegistry = inject(MatIconRegistry)
   sanitizer: DomSanitizer = inject(DomSanitizer)
+  router: Router = inject(Router)
  
   ptwSvc = inject(PTWService)
   constructor(private route: ActivatedRoute) { }
@@ -105,7 +106,13 @@ export class CreateComponent implements OnInit {
     const currentUser = localStorage.getItem('currentUser')
     if (currentUser) {
       this.user = JSON.parse(currentUser)
+      
+    } else {
+      this.router.navigate(['/login']);
+
     }
+
+
   }
 
   invalidForm() {

@@ -2,16 +2,18 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { Permit, SearchQuery } from "../_ModelandConstants/model";
+import { URL_link } from "../_ModelandConstants/constant";
 
-const URL_Create = 'http://localhost:8080/permit/create'
-const URL_Search = 'http://localhost:8080/permit/search'
-const URL_Update = 'http://localhost:8080/permit/update'
-const URL_Cancel = 'http://localhost:8080/permit/cancel'
-const URL_Close = 'http://localhost:8080/permit/close'
+const BASE_URL = URL_link; // Replace with your backend server URL
+
+const URL_Create = `${BASE_URL}/permit/create`
+const URL_Search = `${BASE_URL}/permit/search`
+const URL_Update = `${BASE_URL}/permit/update`
+const URL_Cancel = `${BASE_URL}/permit/cancel`
+const URL_Close = `${BASE_URL}/permit/close`
 
 @Injectable()
-export class PTWService {   
-
+export class PTWService { 
     constructor(private http: HttpClient) {}
 
     createPTW(R: Request): Observable<any> {

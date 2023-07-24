@@ -36,8 +36,7 @@ export class AppComponent implements OnInit {
       case '/create':
         return 'Permit';
       case '/approval':
-        return 'DashBoard';
-      // Add more cases for other routes if needed
+        return 'Dashboard';
       default:
         return '';
     }
@@ -52,5 +51,6 @@ export class AppComponent implements OnInit {
     localStorage.clear()
     this.actSvc.updateUserValidity(false)
     location.reload()
+    
   }
 }

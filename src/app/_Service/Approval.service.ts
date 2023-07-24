@@ -1,12 +1,14 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable, from } from "rxjs";
-import { Approval, Permit, SearchQuery } from "../_ModelandConstants/model";
+import { URL_link } from "../_ModelandConstants/constant";
+import { Approval, Permit } from "../_ModelandConstants/model";
 
+const BASE_URL = URL_link; // Replace with your backend server URL
+const URL_Update = `${BASE_URL}/approval/update`;
+const URL_Cancel = `${BASE_URL}/approval/cancel`;
+const URL_Close = `${BASE_URL}/approval/close`;
 
-const URL_Update = 'http://localhost:8080/approval/update'
-const URL_Cancel = 'http://localhost:8080/approval/cancel'
-const URL_Close = 'http://localhost:8080/approval/close'
 
 @Injectable()
 export class ApprovalService {   
