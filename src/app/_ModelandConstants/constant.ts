@@ -57,8 +57,8 @@ export const PRECAUTION_LIST: PRECAUTION []= [
   { name: 'additionalVenting', label: 'ADDITIONAL VENTING' }
 ]
 
-export const URL_link : String = 'http://localhost:8080'
-// export const URL_link : String = 'https://ptwbackend-production.up.railway.app'
+// export const URL_link : String = 'http://localhost:8080'
+export const URL_link : String = 'https://ptwbackend-production.up.railway.app'
 
 
 
