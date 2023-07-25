@@ -8,6 +8,7 @@ const BASE_URL = URL_link; // Replace with your backend server URL
 
 const URL_Create = `${BASE_URL}/permit/create`
 const URL_Search = `${BASE_URL}/permit/search`
+const URL_Search_all = `${BASE_URL}/permit/searchall`
 const URL_Update = `${BASE_URL}/permit/update`
 const URL_Cancel = `${BASE_URL}/permit/cancel`
 const URL_Close = `${BASE_URL}/permit/close`
@@ -31,6 +32,11 @@ export class PTWService {
       return this.http.get<Permit[]>(URL_Search, { params });
     }
 
+    searchPTWall(): Observable<Permit[]> {
+    
+      return this.http.get<Permit[]>(URL_Search_all,);
+    }
+
     //Get Request: 'http://localhost:8080/permit/search/{{id}}
     searchPTWbyId(id: number): Observable<Permit> {
       const url = `${URL_Search}/${id}`; // Assuming URL_Search is the base URL for the API endpoint
@@ -43,13 +49,15 @@ export class PTWService {
     }
     
     //Get Request: 'http://localhost:8080/permit/cancel/{{id}}
-    cancelPTW(id: number): Observable<Permit[]> {
-      return this.http.post<any>(`${URL_Cancel}/${id}`, id)
+    cancelPTW(id: number, name: String): Observable<Permit[]> {
+      const data = {name: name }
+      return this.http.post<any>(`${URL_Cancel}/${id}`, data)
     }
 
      //Get Request: 'http://localhost:8080/permit/close/{{id}}
-    closePTW(id: number): Observable<Permit[]> {
-      return this.http.post<any>(`${URL_Close}/${id}`, id)
+    closePTW(id: number, name: String): Observable<Permit[]> {
+      const data = {name: name}
+      return this.http.post<any>(`${URL_Close}/${id}`, data)
     }
     
 

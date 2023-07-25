@@ -1,15 +1,16 @@
 <mat-tab-group #tabGroup>
     <mat-tab label="Create/Edit">
-        <form [formGroup]="Form" >
+        <form [formGroup]="Form">
             <div>
                 <tr>
-                    <button mat-flat-button color=""  (click)="onCreateEdit()">
+                    <button mat-flat-button color="" (click)="onCreateEdit()">
                         {{ searchState === 'edit' ? 'Edit' : (searchState === 'create' ? 'Create' : 'Create/Edit') }}
                     </button>
-                    
-                    <input *ngIf="searchState !== 'create'" matInput type="number" size="30" id="id" 
-                    [disabled]="searchState === 'edit'" placeholder="Key in Permit Number" [formControl]="idControl">
-             
+
+                    <input *ngIf="searchState !== 'create'" matInput type="number" size="30" id="id"
+                        [disabled]="searchState === 'edit'" placeholder="Key in Permit Number"
+                        [formControl]="idControl">
+
             </div>
             <div *ngIf="searchState !== ''">
                 <tr>
@@ -122,11 +123,12 @@
                         <td></td>
                         <td>
                             <div class="justify-right">
-                                <button mat-flat-button color="primary" type="button" (click)="submitRequest()"[disabled]="invalidForm()">
+                                <button mat-flat-button color="primary" type="button" (click)="submitRequest()"
+                                    [disabled]="invalidForm()">
                                     {{ searchState !== 'create' ? 'Edit Request' : 'Send Permit Request' }}
-                                   </button>
+                                </button>
                                 <button mat-flat-button color="primary" type="button" (click)="cancelCreateEdit()">
-                                        Cancel</button>
+                                    Cancel</button>
                             </div>
                         </td>
                     </tr>
@@ -151,7 +153,11 @@
 
             <mat-form-field>
                 <mat-label>Filter by Location</mat-label>
-                <input matInput placeholder="Locations" formControlName="locations">
+                <mat-select formControlName="locations">
+                    <mat-option *ngFor="let location of pendingLocations" [value]="location">
+                        {{ location }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
             <button mat-flat-button color="primary" type="submit">Search</button>
@@ -206,7 +212,11 @@
 
             <mat-form-field>
                 <mat-label>Filter by Location</mat-label>
-                <input matInput placeholder="Locations" formControlName="locations">
+                <mat-select formControlName="locations">
+                    <mat-option *ngFor="let location of approvedLocations" [value]="location">
+                        {{ location }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
             <button mat-flat-button color="primary" type="submit">Search</button>

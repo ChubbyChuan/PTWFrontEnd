@@ -9,6 +9,7 @@ import { PTWService } from '../_Service/PTW.service';
 import { PPE_LIST, PRECAUTION_LIST, WORK_AREA_LIST } from '../_ModelandConstants/constant';
 import { ApprovalService } from '../_Service/Approval.service';
 import { Router } from '@angular/router';
+import { ChartService } from '../_Service/Chart.service';
 
 
 //SVG link
@@ -31,7 +32,7 @@ export class ApprovalComponent implements OnInit {
   work_area_list: Work_Area[] = WORK_AREA_LIST
   PPE_list: PPE[] = PPE_LIST
   precaution_list: PRECAUTION[] = PRECAUTION_LIST
-
+  pendingLocations!: string[]
 
 
 
@@ -48,6 +49,8 @@ export class ApprovalComponent implements OnInit {
   ptwSvc = inject(PTWService)
   approvalSvc = inject(ApprovalService)
   router: Router = inject(Router)
+  chartSvc = inject(ChartService)
+
 
 
   //form
@@ -68,6 +71,20 @@ export class ApprovalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    /*----------------instanitate the pending & approved locations------------------------*/
+    this.chartSvc.getInfoLocation(null).subscribe(
+      (response: any) => {
+        // Handle the response here
+        this.pendingLocations = response.location
+        console.log('Current locations:', this.pendingLocations);
+
+      },
+      (error: any) => {
+        // Handle the error here
+        console.error('Error occurred during searchPTWbyId:', error);
+      }
+    );
+
 
 
     //linking the svg file to the respective tag in html
@@ -184,7 +201,7 @@ export class ApprovalComponent implements OnInit {
 
   reject(id: number) {
     console.info('>> reject Entry id: ', id)
-    this.approvalSvc.cancelApproval(id).subscribe(
+    this.approvalSvc.cancelApproval(id, this.user.name).subscribe(
       (response: any) => {
         // Handle the response here
         console.log('Response from cancellation:', response);  
@@ -232,8 +249,8 @@ export class ApprovalComponent implements OnInit {
   //formbuilder
   private createFormSearch(): FormGroup {
     return this.fb.group({
-      type: this.fb.control<string>('hot'),
-      locations: this.fb.control<string>('Production'),
+      type: this.fb.control<string>(''),
+      locations: this.fb.control<string>(''),
       status: this.statusSearchControl
     })
   }

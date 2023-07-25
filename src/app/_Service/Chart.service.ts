@@ -11,6 +11,7 @@ const API_CHART_SIZE_URL = "https://quickchart.io/chart?width=300&height=300&c="
 
 const URL_Chart_Type = `${BASE_URL}/info/graphtype`
 const URL_Chart_Location = `${BASE_URL}/info/graphlocation`
+const URL_Approved_Location = `${BASE_URL}/info/graphlocation`
 
 
 @Injectable()
@@ -94,6 +95,10 @@ export class ChartService {
         }
         const url = `${URL_Chart_Location}/${location}`;
         return this.http.get<any>(url);
+    }
+
+    getapprovedInfoLocation(): Observable<any> {
+        return this.http.get<any>(URL_Approved_Location);
     }
 
 }

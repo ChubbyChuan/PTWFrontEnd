@@ -12,6 +12,7 @@ import { PTWService } from '../_Service/PTW.service';
 import { Permit, SearchQuery, User_Registeration } from '../_ModelandConstants/model';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChartService } from '../_Service/Chart.service';
 
 //SVG link
 const hot = HOT_ICON
@@ -35,6 +36,8 @@ export class CreateComponent implements OnInit {
   // bring in the constants
   options = OPTIONS
   locations = LOCATIONS
+  pendingLocations!: string[]
+  approvedLocations!: string[]
 
 
   //FormControl for autocomplete
@@ -58,6 +61,8 @@ export class CreateComponent implements OnInit {
   router: Router = inject(Router)
  
   ptwSvc = inject(PTWService)
+  chartSvc = inject(ChartService)
+
   constructor(private route: ActivatedRoute) { }
 
   //form
@@ -74,6 +79,32 @@ export class CreateComponent implements OnInit {
   user!: User_Registeration
 
   ngOnInit(): void {
+    /*----------------instanitate the pending & approved locations------------------------*/
+    this.chartSvc.getInfoLocation(null).subscribe(
+      (response: any) => {
+        // Handle the response here
+        this.pendingLocations = response.location
+        console.log('Current locations:', this.pendingLocations);
+
+      },
+      (error: any) => {
+        // Handle the error here
+        console.error('Error occurred during searchPTWbyId:', error);
+      }
+    );
+
+    this.chartSvc.getapprovedInfoLocation().subscribe(
+      (response: any) => {
+        // Handle the response here
+        this.approvedLocations = response.location
+        console.log('Current locations:', this.approvedLocations);
+
+      },
+      (error: any) => {
+        // Handle the error here
+        console.error('Error occurred during searchPTWbyId:', error);
+      }
+    );
 
     /*----------------Create------------------------*/
 
@@ -111,6 +142,8 @@ export class CreateComponent implements OnInit {
       this.router.navigate(['/login']);
 
     }
+
+
 
 
   }
@@ -180,11 +213,11 @@ export class CreateComponent implements OnInit {
         (response: any) => {
 
           console.log('Response from server:', response);
-          // this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
+          this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
         },
         (error: any) => {
           console.error('Error occurred:', error);
-          // this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '');
+          this.Response = JSON.stringify(error.body).replace(/[{\}""]/g, '');
         }
       );
     }
@@ -228,8 +261,8 @@ export class CreateComponent implements OnInit {
   }
 
   cancelEntry(id: number) {
-    console.info('>> cancel Entry id: ', id)
-    this.ptwSvc.cancelPTW(id).subscribe(
+    console.info('>> cancel Entry id: ', id )
+    this.ptwSvc.cancelPTW(id, this.user.name).subscribe(
       (response: any) => {
         console.log('Response from server:', response);
         // this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');
@@ -244,7 +277,7 @@ export class CreateComponent implements OnInit {
 
   closeEntry(id: number) {
     console.info('>> close Entry id: ', id)
-    this.ptwSvc.closePTW(id).subscribe(
+    this.ptwSvc.closePTW(id, this.user.name).subscribe(
       (response: any) => {
         console.log('Response from server:', response);
         // this.Response = JSON.stringify(response).replace(/[{\}""]/g, '');

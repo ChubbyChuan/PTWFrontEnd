@@ -20,13 +20,15 @@ export class ApprovalService {
       }
    
     //Get Request: 'http://localhost:8080/approval/cancel/{{id}}
-    cancelApproval(id: number): Observable<Permit[]> {
-      return this.http.post<any>(`${URL_Cancel}/${id}`, id)
+    cancelApproval(id: number, name: string): Observable<Permit[]> {
+      const data = {name: name }
+      return this.http.post<any>(`${URL_Cancel}/${id}`, data)
     }
 
      //Get Request: 'http://localhost:8080/approval/close/{{id}}
-    closeApproval(id: number): Observable<Permit[]> {
-      return this.http.post<any>(`${URL_Close}/${id}`, id)
+    closeApproval(id: number, name: string): Observable<Permit[]> {
+      const data = {name: name }
+      return this.http.post<any>(`${URL_Close}/${id}`, data)
     }
     
 
